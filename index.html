@@ -61,8 +61,39 @@
     .action-btn { width: 100%; padding: 14px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; border-radius: 12px; color: white; font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-top: 5px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
     .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5); }
     
-   .secondary-links-container { display: flex; justify-content: center; align-items: center; margin-top: 18px; font-size: 0.82rem; width: 100%; }
-    .forgot-pass-link { color: #94a3b8; cursor: pointer; text-decoration: none; transition: color 0.2s; }
+  /* Centered Container wrapper for the recovery button */
+.secondary-links-container { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  margin-top: 14px; 
+  width: 100%; 
+}
+
+/* 🌟 Premium High-End Recovery Action Button with Vivid Blue Neon Glow */
+.forgot-pass-link { 
+  width: 100%;
+  padding: 14px; 
+  background: linear-gradient(90deg, #1d4ed8, #2563eb); 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px; 
+  color: white; 
+  font-size: 0.85rem; 
+  font-weight: 700; 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+  text-align: center;
+}
+
+.forgot-pass-link:hover { 
+  transform: translateY(-2px); 
+  box-shadow: 0 0 25px rgba(37, 99, 235, 0.75), 0 0 50px rgba(59, 130, 246, 0.3);
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  color: #ffffff;
+}
     .forgot-pass-link:hover { color: #60a5fa; text-decoration: underline; }
     /* Premium Upscaled Glowing Logo Container Box */
 .panel-branding-logo-wrapper { width: 105px; height: 105px; background: rgba(3, 7, 18, 0.4); border: 2px solid rgba(59, 130, 246, 0.35); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; padding: 6px; box-shadow: 0 0 25px rgba(59, 130, 246, 0.35), 0 0 50px rgba(139, 92, 246, 0.15); transition: all 0.4s ease; }
@@ -171,10 +202,11 @@
 
         <button type="submit" class="action-btn" id="submitButtonAction">Verify Access Keys</button>
         
-        <div class="secondary-links-container" id="forgotPasswordContainer">
-          <div></div>
-          <span class="forgot-pass-link" id="openForgotModalAction">Forgot Password / Create Manual Pass</span>
-        </div>
+       <div class="secondary-links-container" id="forgotPasswordContainer">
+  <button type="button" class="forgot-pass-link" id="openForgotModalAction">
+    Forgot Password / Create Manual Password
+  </button>
+</div>
       </form>
 
       <p class="toggle-form-text" id="toggleFormPrompt">
