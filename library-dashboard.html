@@ -84,11 +84,9 @@
     .viewer-close { font-size: 1.8rem; color: #94a3b8; cursor: pointer; background: none; border: none; transition: color 0.2s; line-height: 1; outline: none !important; }
     .viewer-close:hover { color: #ef4444; }
     
-    /* 🔒 SECURE VIEWPORT INNER IFRAME: Pulls top-border up by exactly 50px to crop out Google toolbars */
-    .secure-iframe-view-container { width: 100%; flex-grow: 1; overflow: hidden; position: relative; background: #111827; }
     .viewer-iframe { position: absolute; top: -50px; left: 0; height: calc(100% + 50px); width: 100%; border: none !important; outline: none !important; background: #111827; }
 
-    /* 🌟 HIGHER VISIBILITY TRANSPARENT BRAND WATERMARK BLOCK */
+    /* 🌟 PREMIUM BRAND WATERMARK NODE: Clean, borderless transparent structure sitting in the upper left workspace border */
     .fullscreen-branding-logo-node { 
       position: absolute; 
       top: 25px; 
@@ -103,9 +101,43 @@
       outline: none !important;
     }
 
-    /* Toggles the watermark layer visibility node natively based on fullscreen status classes */
+    /* 🌟 PREMIUM FLOATING ACTION EXIT LINK: High-end floating blur button sitting at the upper right workspace border */
+    .fullscreen-floating-exit-node {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      display: none;
+      align-items: center;
+      z-index: 300;
+      background: rgba(239, 68, 68, 0.15) !important;
+      border: 1px solid rgba(239, 68, 68, 0.3) !important;
+      padding: 8px 18px;
+      border-radius: 12px;
+      color: #fca5a5;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      transition: all 0.2s ease;
+      outline: none !important;
+    }
+    .fullscreen-floating-exit-node:hover {
+      background: rgba(239, 68, 68, 0.3) !important;
+      border-color: #ef4444 !important;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.2);
+    }
+
+    /* Active rendering rules activated dynamically during fullscreen triggers */
     .viewer-modal-box:fullscreen .fullscreen-branding-logo-node { display: flex; }
     .viewer-modal-box:-webkit-full-screen .fullscreen-branding-logo-node { display: flex; }
+    
+    .viewer-modal-box:fullscreen .fullscreen-floating-exit-node { display: flex; }
+    .viewer-modal-box:-webkit-full-screen .fullscreen-floating-exit-node { display: flex; }
 
     .fullscreen-brand-img { 
       width: 90px; 
@@ -131,8 +163,11 @@
       .premium-header { padding: 15px 20px; }
       .header-title { font-size: 1.05rem; }
       .fullscreen-brand-img { width: 55px; height: 55px; top: 15px; left: 15px; }
+      .fullscreen-floating-exit-node { top: 15px; right: 15px; padding: 6px 12px; font-size: 0.75rem; }
     }
   </style>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 <body oncontextmenu="return false;">
 
@@ -209,6 +244,10 @@
         <img src="logo.png" alt="Paramount Watermark" class="fullscreen-brand-img">
       </div>
 
+      <button type="button" class="fullscreen-floating-exit-node" id="floatingExitFullscreenBtn">
+        ✕ Close Fullscreen
+      </button>
+
       <div class="viewer-toolbar" id="readerToolbarHeader">
         <h3 id="modalBookTitleDisplay" style="font-size: 1.1rem; color: white; font-weight: 600;">Document Stream</h3>
         <div class="viewer-action-controls">
@@ -217,7 +256,7 @@
         </div>
       </div>
       
-      <div class="secure-iframe-view-container">
+      <div style="width: 100%; flex-grow: 1; overflow: hidden; position: relative; background: #111827;">
         <iframe 
           class="viewer-iframe" 
           id="inlinePdfStreamer" 
@@ -248,7 +287,7 @@
         <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1A11.36 11.36 0 008.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>
       </a>
       <a href="https://wa.me/919652188807" target="_blank" class="social-icon-link" title="Chat on WhatsApp">
-        <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.953 2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.546c1.614.957 3.197 1.498 4.819 1.499 5.429 0 9.847-4.415 9.85-9.842.002-2.63-1.02-5.101-2.881-6.963C16.564 2.285 14.1 1.26 11.469 1.26c-5.434 0-9.854 4.417-9.857 9.846-.001 1.706.449 3.371 1.305 4.843l-.988 3.606 3.718-.975zm13.14-5.31c-.303-.152-1.794-.885-2.072-.986-.279-.101-.482-.152-.684.152-.202.304-.783.986-.96 1.189-.177.202-.355.228-.658.076-.303-.152-1.28-.472-2.439-1.506-.902-.805-1.512-1.8-1.689-2.103-.177-.304-.019-.468.132-.619.136-.136.304-.355.456-.532.152-.177.202-.355.304-.506.101-.202.051-.38-.025-.532-.076-.152-.684-1.647-.937-2.255-.247-.593-.499-.513-.684-.522-.177-.009-.38-.01-.583-.01-.203 0-.532.076-.811.38-.279.304-1.064 1.039-1.064 2.533 0 1.495 1.089 2.939 1.241 3.142.152.203 2.143 3.273 5.192 4.588.725.313 1.291.5 1.734.641.728.231 1.391.199 1.915.121.584-.087 1.794-.734 2.048-1.443.253-.709.253-1.317.177-1.443-.076-.126-.279-.203-.583-.355z"/></svg>
+        <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.546c1.614.957 3.197 1.498 4.819 1.499 5.429 0 9.847-4.415 9.85-9.842.002-2.63-1.02-5.101-2.881-6.963C16.564 2.285 14.1 1.26 11.469 1.26c-5.434 0-9.854 4.417-9.857 9.846-.001 1.706.449 3.371 1.305 4.843l-.988 3.606 3.718-.975zm13.14-5.31c-.303-.152-1.794-.885-2.072-.986-.279-.101-.482-.152-.684.152-.202.304-.783.986-.96 1.189-.177.202-.355.228-.658.076-.303-.152-1.28-.472-2.439-1.506-.902-.805-1.512-1.8-1.689-2.103-.177-.304-.019-.468.132-.619.136-.136.304-.355.456-.532.152-.177.202-.355.304-.506.101-.202.051-.38-.025-.532-.076-.152-.684-1.647-.937-2.255-.247-.593-.499-.513-.684-.522-.177-.009-.38-.01-.583-.01-.203 0-.532.076-.811.38-.279.304-1.064 1.039-1.064 2.533 0 1.495 1.089 2.939 1.241 3.142.152.203 2.143 3.273 5.192 4.588.725.313 1.291.5 1.734.641.728.231 1.391.199 1.915.121.584-.087 1.794-.734 2.048-1.443.253-.709.253-1.317.177-1.443-.076-.126-.279-.203-.583-.355z"/></svg>
       </a>
     </div>
     <div class="copyright-notice">
@@ -393,7 +432,17 @@
     // 🌟 FULLSCREEN ENGINE CONTROLLERS WITH STRUCTURAL LAYOUT TRANSITIONS
     const fullscreenTarget = document.getElementById('fullscreenReaderCardBox');
     const toggleFullscreenBtn = document.getElementById('toggleFullscreenBtn');
+    const floatingExitFullscreenBtn = document.getElementById('floatingExitFullscreenBtn');
     const toolbarHeader = document.getElementById('readerToolbarHeader');
+
+    // Centralized function helper to execute full screen exit routines smoothly
+    function triggerNormalScreenModeRelease() {
+      if (document.exitFullscreen) { document.exitFullscreen(); }
+      else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+      
+      toggleFullscreenBtn.textContent = "Go Fullscreen";
+      toolbarHeader.style.display = "flex";
+    }
 
     toggleFullscreenBtn.addEventListener('click', () => {
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
@@ -408,15 +457,15 @@
         }
         
         toggleFullscreenBtn.textContent = "Exit Fullscreen";
-        // 🔒 FIX: Use display='none' to physically drop the toolbar shape out of your template architecture
         toolbarHeader.style.display = "none"; 
       } else {
-        if (document.exitFullscreen) { document.exitFullscreen(); }
-        else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
-        
-        toggleFullscreenBtn.textContent = "Go Fullscreen";
-        toolbarHeader.style.display = "flex";
+        triggerNormalScreenModeRelease();
       }
+    });
+
+    // 🌟 CONNECT FLOATING CLOSE BUTTON EVENT: Calls the script breakout function seamlessly
+    floatingExitFullscreenBtn.addEventListener('click', () => {
+      triggerNormalScreenModeRelease();
     });
 
     function monitorFullscreenExitChange() {
