@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Paramount Bulk Library Importer</title>
+  <style>
+    body { background: #030712; color: white; font-family: sans-serif; padding: 40px; }
+    textarea { width: 100%; height: 250px; background: #111827; color: #10B981; border: 1px solid #374151; padding: 15px; font-family: monospace; border-radius: 12px; outline: none; }
+    button { padding: 14px 30px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+    #log { margin-top: 20px; background: #000; padding: 15px; max-height: 300px; overflow-y: auto; font-size: 0.85rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+  <h2>📚 Paramount Bulk Database Auto-Importer</h2>
+  <p style="color: #94a3b8; margin-bottom: 20px;">Open your exported CSV file in Notepad, copy all text contents, paste them below, and click upload.</p>
+
+  <textarea id="csvDataInput" placeholder="File Name,File URL&#10;Telugu Textbook_Grade 2_Telugu.pdf,https://drive.google.com/file/d/XXXX/view"></textarea>
+  <button id="startImportBtn">Parse & Sync to Firestore</button>
+
+  <div id="log">Importer Idle... Awaiting data stream input parameters.</div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    // ✅ FIXED: Injected your complete authorized keys matrix config block
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzUOh21Ec31kKmf42Tcw-xs4fVZyPh2fM",
+      authDomain: "paramount-school-d55bc.firebaseapp.com",
+      databaseURL: "https://paramount-school-d55bc-default-rtdb.firebaseio.com",
+      projectId: "paramount-school-d55bc",
+      storageBucket: "paramount-school-d55bc.firebasestorage.app",
+      messagingSenderId: "130979432562",
+      appId: "1:130979432562:web:4cd94787b23f9daba51aeb",
+      measurementId: "G-ZMZHXB5GFM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const logBox = document.getElementById('log');
+
+    document.getElementById('startImportBtn').addEventListener('click', async () => {
+      const text = document.getElementById('csvDataInput').value.trim();
+      if(!text) { alert("Please paste spreadsheet data contents first."); return; }
+
+      const lines = text.split('\n');
+      logBox.innerHTML = "⚡ Initializing automation pipeline tools...<br>";
+
+      let successCount = 0;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line || i === 0 && line.toLowerCase().includes('url')) continue; // Skip header lines cleanly
+
+        // Split CSV row data by finding the comma barrier separation
+        const parts = line.split(',');
+        if (parts.length < 2) continue;
+
+        const rawFileName = parts[0].trim();
+        const rawDriveUrl = parts[1].trim();
+
+        try {
+          // 🆔 Clean Extraction of Google Drive unique ID strings
+          let fileId = "";
+          if (rawDriveUrl.includes('/d/')) {
+            fileId = rawDriveUrl.split('/d/')[1].split('/')[0];
+          } else if (rawDriveUrl.includes('id=')) {
+            fileId = rawDriveUrl.split('id=')[1].split('&')[0];
+          }
+
+          if(!fileId) {
+            logBox.innerHTML += `<span style="color: #ef4444;">❌ Row ${i}: Invalid Google Drive link syntax string skipped.</span><br>`;
+            continue;
+          }
+
+          // Format link parameters into our direct download streaming worker path
+          const cleanStreamUrl = `https://docs.google.com/uc?export=download&id=${fileId}`;
+
+          // ✂️ SPLITTING RULE: Separate filename parts by matching the underscore characters
+          // Expected name format example: Telugu Textbook_Grade 2_Telugu.pdf
+          const cleanNameString = rawFileName.replace('.pdf', '').replace(/"/g, ''); // Removes stray text quotes
+          const metaParts = cleanNameString.split('_');
+
+          if (metaParts.length < 3) {
+            logBox.innerHTML += `<span style="color: #f59e0b;">⚠️ Row ${i}: Skipping file "${rawFileName}". (Check name has 2 underscores separating title, grade, and subject).</span><br>`;
+            continue;
+          }
+
+          const parsedTitle = metaParts[0].trim();
+          const parsedGrade = metaParts[1].trim();   // Will extract exactly "Grade 2"
+          const parsedSubject = metaParts[2].trim(); // Will extract exactly "Telugu"
+
+          // Fire data properties straight into Cloud Firestore digital_library collection directory layout
+          const customDocId = `book_${fileId}`; // Keep doc IDs anchored cleanly to file structures
+          await setDoc(doc(db, "digital_library", customDocId), {
+            title: parsedTitle,
+            grade: parsedGrade,
+            subject: parsedSubject,
+            author: "Paramount Academic Panel",
+            fileURL: cleanStreamUrl
+          });
+
+          successCount++;
+          logBox.innerHTML += `<span style="color: #10b981;">✅ Imported: ${parsedTitle} (${parsedGrade} - ${parsedSubject})</span><br>`;
+          logBox.scrollTop = logBox.scrollHeight;
+
+        } catch (error) {
+          logBox.innerHTML += `<span style="color: #ef4444;">❌ Database Error on line ${i}: ${error.message}</span><br>`;
+        }
+      }
+
+      logBox.innerHTML += `<br><strong style="color: #3b82f6;">🎉 Task Complete! Successfully parsed and uploaded ${successCount} books into Firestore!</strong>`;
+    });
+  </script>
+</body>
+</html>
