@@ -174,7 +174,6 @@
     const registrationNameRow = document.getElementById('registrationNameRow');
     const registrationPhoneGroup = document.getElementById('registrationPhoneGroup');
 
-    // FIXED: Clean function matrix instead of deprecated arguments.callee loop
     function handleFormToggle() {
       isLoginMode = !isLoginMode;
       errorBox.style.display = 'none';
@@ -186,28 +185,27 @@
         formSubTitle.textContent = "Enter your school credentials to access the bookshelf";
         submitButtonAction.textContent = "Verify Access Keys";
         toggleFormPrompt.innerHTML = 'New to the library platform? <span id="toggleActionButton">Register Here</span>';
+        registrationNameRow.style.display = 'none';
+        registrationPhoneGroup.style.display = 'none';
       } else {
         formMainTitle.textContent = "Create Account";
         formSubTitle.textContent = "Register your credentials for digital access";
         submitButtonAction.textContent = "Register New Account";
         toggleFormPrompt.innerHTML = 'Already registered? <span id="toggleActionButton">Login Here</span>';
+        registrationNameRow.style.display = 'grid';
+        registrationPhoneGroup.style.display = 'block';
       }
-      
-      // Re-attach listener cleanly to the new innerHTML node item
       document.getElementById('toggleActionButton').addEventListener('click', handleFormToggle);
     }
 
-    // Initial binding execution
     document.getElementById('toggleActionButton').addEventListener('click', handleFormToggle);
 
-    // FIXED: Redirect flow catches asynchronous tokens, bypassing local popup context blocks
     document.getElementById('googleSignInAction').addEventListener('click', () => {
       errorBox.style.display = 'none';
       successBox.style.display = 'none';
       signInWithRedirect(auth, googleProvider);
     });
 
-    // Handle return token data payload from Google securely on document mount load
     getRedirectResult(auth)
       .then(async (result) => {
         if (result && result.user) {
@@ -231,7 +229,6 @@
         errorBox.textContent = `❌ Security Authorization Rejected: ${err.message.replace("Firebase: ", "")}`;
       });
 
-    // Standard Form Email Handler Loops
     document.getElementById('authSystemForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const email = document.getElementById('userEmail').value;
@@ -267,13 +264,12 @@
             setTimeout(() => { handleFormToggle(); }, 2000);
           })
           .catch((err) => {
-            errorBox.style.save = 'block';
+            errorBox.style.display = 'block';
             errorBox.textContent = `❌ Registration Rejected: ${err.message.replace("Firebase: ", "")}`;
           });
       }
     });
 
-    // Starfield Particle Loop
     const starfield = document.getElementById('starfield');
     for (let i = 0; i < 80; i++) {
       const star = document.createElement('div');
