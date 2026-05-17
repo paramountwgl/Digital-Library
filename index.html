@@ -152,7 +152,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -196,53 +196,70 @@
         formSubTitle.textContent = "Enter your school credentials to access the bookshelf";
         submitButtonAction.textContent = "Verify Access Keys";
         toggleFormPrompt.innerHTML = 'New to the library platform? <span id="toggleActionButton">Register Here</span>';
-        registrationNameRow.style.style.display = 'none';
+        
+        // 🔑 FIXED: Removed broken style.style syntax crash reference loop
+        registrationNameRow.style.display = 'none';
         registrationPhoneGroup.style.display = 'none';
         confirmPasswordGroup.style.display = 'none';
+        
         passwordLabel.textContent = "Password";
+        document.getElementById('confirmPassword').removeAttribute('required');
       } else {
         formMainTitle.textContent = "Create Account";
         formSubTitle.textContent = "Register your credentials for digital access";
         submitButtonAction.textContent = "Register New Account";
         toggleFormPrompt.innerHTML = 'Already registered? <span id="toggleActionButton">Login Here</span>';
+        
         registrationNameRow.style.display = 'grid';
         registrationPhoneGroup.style.display = 'block';
         confirmPasswordGroup.style.display = 'block';
+        
         passwordLabel.textContent = "Create Password";
+        document.getElementById('confirmPassword').setAttribute('required', 'true');
       }
-      document.getElementById('toggleActionButton').addEventListener('click', handleFormToggle);
     }
 
-    document.getElementById('toggleActionButton').addEventListener('click', handleFormToggle);
+    // Dynamic clean click delegation tracker for toggling forms cleanly
+    document.body.addEventListener('click', function(e) {
+      if (e.target && e.target.id === 'toggleActionButton') {
+        handleFormToggle();
+      }
+    });
 
+    // 🔑 FIXED: Upgraded provider implementation to standard Popup mapping to prevent token routing loop drops
     document.getElementById('googleSignInAction').addEventListener('click', () => {
       errorBox.style.display = 'none';
       successBox.style.display = 'none';
-      signInWithRedirect(auth, googleProvider);
+      
+      signInWithPopup(auth, googleProvider)
+        .then(async (result) => {
+          if (result && result.user) {
+            const user = result.user;
+            const nameParts = user.displayName ? user.displayName.split(" ") : ["Student", "User"];
+            
+            // Checks if data exists; updates safely if already registered or logs a clean path if brand new
+            await setDoc(doc(db, "library_users", user.uid), {
+              firstName: nameParts[0],
+              lastName: nameParts[1] || "",
+              email: user.email,
+              phone: user.phoneNumber || "Google Verified Profile",
+              authProvider: "google",
+              registeredAt: new Date().toISOString()
+            }, { merge: true });
+
+            successBox.style.display = 'block';
+            successBox.textContent = "🎉 Security Token Verified. Launching Your Personal Dashboard...";
+            
+            setTimeout(() => {
+              window.location.href = './library-dashboard.html';
+            }, 1000);
+          }
+        })
+        .catch((err) => {
+          errorBox.style.display = 'block';
+          errorBox.textContent = `❌ Security Authorization Rejected: ${err.message.replace("Firebase: ", "")}`;
+        });
     });
-
-    getRedirectResult(auth)
-      .then(async (result) => {
-        if (result && result.user) {
-          const user = result.user;
-          const nameParts = user.displayName ? user.displayName.split(" ") : ["Student", "User"];
-          
-          await setDoc(doc(db, "library_users", user.uid), {
-            firstName: nameParts[0],
-            lastName: nameParts[1] || "",
-            email: user.email,
-            phone: user.phoneNumber || "Google Verified User Profile Account",
-            authProvider: "google",
-            registeredAt: new Date().toISOString()
-          }, { merge: true });
-
-          window.location.href = './library-dashboard.html';
-        }
-      })
-      .catch((err) => {
-        errorBox.style.display = 'block';
-        errorBox.textContent = `❌ Security Authorization Rejected: ${err.message.replace("Firebase: ", "")}`;
-      });
 
     document.getElementById('authSystemForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -256,7 +273,7 @@
           .then(() => { 
             window.location.href = './library-dashboard.html'; 
           })
-          .catch(() => {
+          .catch((err) => {
             errorBox.style.display = 'block';
             errorBox.textContent = "❌ Verification failed. Confirm account entry parameters match.";
           });
@@ -294,6 +311,7 @@
       }
     });
 
+    // Premium Cosmic Particle Field Generator Matrix Engine
     const starfield = document.getElementById('starfield');
     for (let i = 0; i < 80; i++) {
       const star = document.createElement('div');
