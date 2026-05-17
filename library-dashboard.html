@@ -158,12 +158,19 @@
     .social-icon-svg { width: 20px; height: 20px; fill: currentColor; }
     .copyright-notice { font-size: 0.8rem; color: #4b5563; margin-top: 5px; letter-spacing: 0.5px; }
 
-    @media (max-width: 768px) {
+   @media (max-width: 768px) {
       .controls-grid { grid-template-columns: 1fr; gap: 15px; }
       .premium-header { padding: 15px 20px; }
       .header-title { font-size: 1.05rem; }
       .fullscreen-brand-img { width: 55px; height: 55px; top: 15px; left: 15px; }
-      .fullscreen-floating-exit-node { top: 15px; right: 15px; padding: 6px 12px; font-size: 0.75rem; }
+      
+      /* 🔒 FIXED MOBILE LAYOUT SELECTOR: Forces maximum specific weight priority to align on compact displays */
+      #floatingExitFullscreenBtn { 
+        top: 15px !important; 
+        right: 15px !important; 
+        padding: 6px 12px !important; 
+        font-size: 0.75rem !important; 
+      }
     }
   </style>
   
