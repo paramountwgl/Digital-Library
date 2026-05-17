@@ -388,15 +388,23 @@
       }
     });
 
-    // 🌟 FULLSCREEN ENGINE CONTROLLERS
+// 🌟 FULLSCREEN ENGINE CONTROLLERS WITH ACCESSIBILITY OUTLINE FILTER OVERRIDES
     const fullscreenTarget = document.getElementById('fullscreenReaderCardBox');
     const toggleFullscreenBtn = document.getElementById('toggleFullscreenBtn');
     const toolbarHeader = document.getElementById('readerToolbarHeader');
 
     toggleFullscreenBtn.addEventListener('click', () => {
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        if (fullscreenTarget.requestFullscreen) { fullscreenTarget.requestFullscreen(); }
-        else if (fullscreenTarget.webkitRequestFullscreen) { fullscreenTarget.webkitRequestFullscreen(); }
+        if (fullscreenTarget.requestFullscreen) { 
+          fullscreenTarget.requestFullscreen().then(() => {
+            // 🔒 FIX: Forces active window focus inside the container workspace to clear Chrome's outline indicator instantly
+            fullscreenTarget.focus(); 
+          }); 
+        }
+        else if (fullscreenTarget.webkitRequestFullscreen) { 
+          fullscreenTarget.webkitRequestFullscreen();
+          setTimeout(() => { fullscreenTarget.focus(); }, 100); // Fail-safe fallback timer delay loop for Safari/iOS engines
+        }
         
         toggleFullscreenBtn.textContent = "Exit Fullscreen";
         toolbarHeader.style.visibility = "hidden"; 
