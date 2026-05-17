@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Digital Library Access | Paramount School</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-   <link rel="icon" type="image/png" href="logo.png">
+  <link rel="icon" type="image/png" href="logo.png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     html, body { overflow-x: hidden; background-color: #030712; color: white; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; position: relative; scrollbar-width: none; -ms-overflow-style: none; }
@@ -21,29 +21,59 @@
       100% { transform: translate(-50%, -50%) translate3d(calc(var(--tx) * 8), calc(var(--ty) * 8), 0) scale(var(--max-scale)); box-shadow: 0 0 8px rgba(255, 255, 255, 0.5); opacity: 0; }
     }
 
-    .portal-wrapper { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 60px 20px; z-index: 5; position: relative; }
-    .auth-panel { width: 100%; max-width: 450px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 28px; padding: 40px 35px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); text-align: center; }
-    .branding-icon { width: 80px; height: 80px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 2.2rem; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
-    .portal-title { font-size: 1.8rem; font-weight: 700; background: linear-gradient(to right, #ffffff, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
-    .portal-subtitle { font-size: 0.9rem; color: #94a3b8; margin-bottom: 30px; }
+    .portal-wrapper { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; z-index: 5; position: relative; }
+    .auth-panel { width: 100%; max-width: 480px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 28px; padding: 35px 30px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); text-align: center; }
+    .branding-icon { width: 70px; height: 70px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; font-size: 2rem; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
+    .portal-title { font-size: 1.7rem; font-weight: 700; background: linear-gradient(to right, #ffffff, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+    .portal-subtitle { font-size: 0.85rem; color: #94a3b8; margin-bottom: 25px; }
     
-    .form-group { margin-bottom: 20px; text-align: left; }
-    .form-group label { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px; color: #cbd5e1; margin-bottom: 8px; font-weight: 500; }
-    .input-wrapper input { width: 100%; padding: 15px 18px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; color: white; font-size: 0.95rem; outline: none; transition: all 0.3s ease; }
-    .input-wrapper input:focus { border-color: #3b82f6; background: rgba(255, 255, 255, 0.08); box-shadow: 0 0 20px rgba(59, 130, 246, 0.25); }
-    
-    .action-btn { width: 100%; padding: 16px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; border-radius: 14px; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 10px; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3); }
-    .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5); }
-    
-    .toggle-form-text { margin-top: 25px; font-size: 0.9rem; color: #94a3b8; }
-    .toggle-form-text span { color: #60a5fa; cursor: pointer; font-weight: 600; text-decoration: underline; }
-    .error-box { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #fca5a5; padding: 12px; border-radius: 12px; font-size: 0.85rem; margin-bottom: 20px; display: none; text-align: left; }
-    .success-box { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); color: #a7f3d0; padding: 12px; border-radius: 12px; font-size: 0.85rem; margin-bottom: 20px; display: none; text-align: left; }
+    /* Premium Google Authentication Button */
+    .google-auth-btn {
+      width: 100%;
+      padding: 14px;
+      background: #ffffff;
+      border: none;
+      border-radius: 12px;
+      color: #1f2937;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: all 0.3s ease;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .google-auth-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3); background: #f9fafb; }
+    .google-icon { width: 20px; height: 20px; }
 
-    /* Premium Branded Institutional Footer Styling */
-    .site-footer { width: 100%; padding: 30px 20px; text-align: center; background: rgba(255, 255, 255, 0.01); border-top: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-    .footer-logo { width: 45px; height: 45px; object-fit: contain; border-radius: 50%; filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3)); }
-    .footer-text { font-size: 0.9rem; color: #94a3b8; letter-spacing: 0.5px; }
+    /* Decorative Text Divider line */
+    .divider-container { display: flex; align-items: center; text-align: center; margin-bottom: 25px; color: #4b5563; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
+    .divider-container::before, .divider-container::after { content: ''; flex: 1; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .divider-container:not(:empty)::before { margin-right: .75em; }
+    .divider-container:not(:empty)::after { margin-left: .75em; }
+
+    /* Form Structuring grids */
+    .form-row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .form-group { margin-bottom: 16px; text-align: left; }
+    .form-group label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; margin-bottom: 6px; font-weight: 500; }
+    .input-wrapper input { width: 100%; padding: 12px 16px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; color: white; font-size: 0.9rem; outline: none; transition: all 0.3s ease; }
+    .input-wrapper input:focus { border-color: #3b82f6; background: rgba(255, 255, 255, 0.08); box-shadow: 0 0 15px rgba(59, 130, 246, 0.25); }
+    
+    .action-btn { width: 100%; padding: 14px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; border-radius: 12px; color: white; font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-top: 5px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
+    .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5); }
+    
+    .toggle-form-text { margin-top: 20px; font-size: 0.85rem; color: #94a3b8; }
+    .toggle-form-text span { color: #60a5fa; cursor: pointer; font-weight: 600; text-decoration: underline; }
+    .error-box { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #fca5a5; padding: 12px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 16px; display: none; text-align: left; line-height: 1.4; }
+    .success-box { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); color: #a7f3d0; padding: 12px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 16px; display: none; text-align: left; }
+
+    /* Branded Footer Container */
+    .site-footer { width: 100%; padding: 25px 20px; text-align: center; background: rgba(255, 255, 255, 0.01); border-top: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .footer-logo { width: 40px; height: 40px; object-fit: contain; border-radius: 50%; filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3)); }
+    .footer-text { font-size: 0.85rem; color: #94a3b8; letter-spacing: 0.5px; }
     .footer-text strong { color: #ffffff; font-weight: 600; }
   </style>
 </head>
@@ -56,12 +86,37 @@
     <div class="auth-panel">
       <div class="branding-icon">📚</div>
       <h2 class="portal-title" id="formMainTitle">Digital Library Login</h2>
-      <p class="portal-subtitle" id="formSubTitle">Enter your credentials to access the bookshelf</p>
+      <p class="portal-subtitle" id="formSubTitle">Enter your school credentials to access the bookshelf</p>
 
       <div class="error-box" id="errorMessageBox"></div>
       <div class="success-box" id="successMessageBox"></div>
 
+      <button type="button" class="google-auth-btn" id="googleSignInAction">
+        <svg class="google-icon" viewBox="0 0 24 24">
+          <path fill="#MA4335" d="M12.24 10.285V14.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.866-3.577-7.866-8s3.536-8 7.866-8c2.46 0 4.105 1.025 5.047 1.926l3.227-3.107C18.435 2.038 15.65 1 12.24 1 6.133 1 1.133 6.002 1.133 12s5 11 11.107 11c6.376 0 10.615-4.481 10.615-10.804 0-.727-.08-1.282-.175-1.911H12.24z"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <div class="divider-container">Or use portal account</div>
+
       <form id="authSystemForm">
+        <div class="form-row-grid" id="registrationNameRow" style="display: none;">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <div class="input-wrapper"><input type="text" id="firstName" placeholder="Tauseef" /></div>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <div class="input-wrapper"><input type="text" id="lastName" placeholder="Shaik" /></div>
+          </div>
+        </div>
+
+        <div class="form-group" id="registrationPhoneGroup" style="display: none;">
+          <label for="phoneNumber">Phone Number</label>
+          <div class="input-wrapper"><input type="tel" id="phoneNumber" placeholder="+91 98765 43210" /></div>
+        </div>
+
         <div class="form-group">
           <label for="userEmail">Email Address</label>
           <div class="input-wrapper">
@@ -92,23 +147,26 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
+    // Linked directly to your official paramount-school-d55bc project parameters
     const firebaseConfig = {
-     apiKey: "AIzaSyDRYk9KOK-ga0c88dnYMsAoifW2NJTd_Y8",
-  authDomain: "paramount-school-d55bc.firebaseapp.com",
-  databaseURL: "https://paramount-school-d55bc-default-rtdb.firebaseio.com",
-  projectId: "paramount-school-d55bc",
-  storageBucket: "paramount-school-d55bc.firebasestorage.app",
-  messagingSenderId: "130979432562",
-  appId: "1:130979432562:web:4cd94787b23f9daba51aeb",
-  measurementId: "G-ZMZHXB5GFM"
+      apiKey: "AIzaSyDRYk9KOK-ga0c88dnYMsAoifW2NJTd_Y8",
+      authDomain: "paramount-school-d55bc.firebaseapp.com",
+      databaseURL: "https://paramount-school-d55bc-default-rtdb.firebaseio.com",
+      projectId: "paramount-school-d55bc",
+      storageBucket: "paramount-school-d55bc.firebasestorage.app",
+      messagingSenderId: "130979432562",
+      appId: "1:130979432562:web:4cd94787b23f9daba51aeb",
+      measurementId: "G-ZMZHXB5GFM"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
+    const googleProvider = new GoogleAuthProvider();
 
-    // State Tracking Mode: true = Login Mode, false = Registration Mode
     let isLoginMode = true;
 
     const formMainTitle = document.getElementById('formMainTitle');
@@ -118,8 +176,12 @@
     const toggleActionButton = document.getElementById('toggleActionButton');
     const errorBox = document.getElementById('errorMessageBox');
     const successBox = document.getElementById('successMessageBox');
+    
+    // Multi-form field row structural references
+    const registrationNameRow = document.getElementById('registrationNameRow');
+    const registrationPhoneGroup = document.getElementById('registrationPhoneGroup');
 
-    // UI Flip Logic Matrix
+    // Toggle Form view switching visibility streams
     toggleActionButton.addEventListener('click', () => {
       isLoginMode = !isLoginMode;
       errorBox.style.display = 'none';
@@ -128,20 +190,51 @@
 
       if (isLoginMode) {
         formMainTitle.textContent = "Digital Library Login";
-        formSubTitle.textContent = "Enter your credentials to access the bookshelf";
+        formSubTitle.textContent = "Enter your school credentials to access the bookshelf";
         submitButtonAction.textContent = "Verify Access Keys";
         toggleFormPrompt.innerHTML = 'New to the library platform? <span id="toggleActionButton">Register Here</span>';
+        registrationNameRow.style.display = 'none';
+        registrationPhoneGroup.style.display = 'none';
       } else {
         formMainTitle.textContent = "Create Account";
         formSubTitle.textContent = "Register your credentials for digital access";
         submitButtonAction.textContent = "Register New Account";
         toggleFormPrompt.innerHTML = 'Already registered? <span id="toggleActionButton">Login Here</span>';
+        registrationNameRow.style.display = 'grid';
+        registrationPhoneGroup.style.display = 'block';
       }
-      // Rebind listener loop dynamically to the newly printed DOM element link node
       document.getElementById('toggleActionButton').addEventListener('click', arguments.callee);
     });
 
-    // Handle Authentication Submission Cycles
+    // One-Click Google Authentication Execution Popup Sequence
+    document.getElementById('googleSignInAction').addEventListener('click', () => {
+      errorBox.style.display = 'none';
+      successBox.style.display = 'none';
+
+      signInWithPopup(auth, googleProvider)
+        .then(async (result) => {
+          const user = result.user;
+          const nameParts = user.displayName ? user.displayName.split(" ") : ["Student", "User"];
+          
+          // Lazily log Google profile registration details metadata into a users table if new
+          await setDoc(doc(db, "library_users", user.uid), {
+            firstName: nameParts[0],
+            lastName: nameParts[1] || "",
+            email: user.email,
+            phone: user.phoneNumber || "Google Verified Account",
+            authProvider: "google",
+            registeredAt: new Date().toISOString()
+          }, { merge: true });
+
+          window.location.href = 'library-dashboard.html';
+        })
+        .catch((err) => {
+          errorBox.style.display = 'block';
+          errorBox.textContent = `❌ Google Auth Refused: ${err.message.replace("Firebase: ", "")}`;
+        });
+    });
+
+    // Form Manual Fields registration/login submission loops
     document.getElementById('authSystemForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const email = document.getElementById('userEmail').value;
@@ -151,19 +244,33 @@
       successBox.style.display = 'none';
 
       if (isLoginMode) {
-        // Sign-In Security Logic Stream
         signInWithEmailAndPassword(auth, email, password)
           .then(() => { window.location.href = 'library-dashboard.html'; })
-          .catch((err) => {
+          .catch(() => {
             errorBox.style.display = 'block';
-            errorBox.textContent = "❌ Verification failed. Please confirm email/password match entry or register.";
+            errorBox.textContent = "❌ Verification failed. Confirm account entry parameter fields match.";
           });
       } else {
-        // Sign-Up Creation Security Logic Stream
+        const fName = document.getElementById('firstName').value || "Student";
+        const lName = document.getElementById('lastName').value || "";
+        const phone = document.getElementById('phoneNumber').value || "None Provided";
+
         createUserWithEmailAndPassword(auth, email, password)
-          .then(() => {
+          .then(async (userCredential) => {
+            const user = userCredential.user;
+            
+            // Save manual registration entry fields into Firestore database collection
+            await setDoc(doc(db, "library_users", user.uid), {
+              firstName: fName,
+              lastName: lName,
+              email: email,
+              phone: phone,
+              authProvider: "email-password",
+              registeredAt: new Date().toISOString()
+            });
+
             successBox.style.display = 'block';
-            successBox.textContent = "🎉 Registration successful! Switching to login mode...";
+            successBox.textContent = "🎉 Registration complete! Flipping to Login view...";
             setTimeout(() => { toggleActionButton.click(); }, 2000);
           })
           .catch((err) => {
@@ -173,7 +280,7 @@
       }
     });
 
-    // Starfield Animation Generation Logic Matrix
+    // Starfield warp background array generator matrix
     const starfield = document.getElementById('starfield');
     for (let i = 0; i < 80; i++) {
       const star = document.createElement('div');
