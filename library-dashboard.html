@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Digital Bookshelf Portal | Paramount School</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo.png">
@@ -109,27 +109,26 @@
       display: none;
       align-items: center;
       z-index: 300;
-      background: rgba(239, 68, 68, 0.15) !important;
-      border: 1px solid rgba(239, 68, 68, 0.3) !important;
-      padding: 8px 18px;
-      border-radius: 12px;
-      color: #fca5a5;
-      font-size: 0.82rem;
+      background: rgba(239, 68, 68, 0.25) !important;
+      border: 1px solid rgba(239, 68, 68, 0.4) !important;
+      padding: 10px 22px;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 0.85rem;
       font-weight: 600;
       letter-spacing: 0.5px;
       cursor: pointer;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
       transition: all 0.2s ease;
       outline: none !important;
     }
     .fullscreen-floating-exit-node:hover {
-      background: rgba(239, 68, 68, 0.3) !important;
+      background: rgba(239, 68, 68, 0.45) !important;
       border-color: #ef4444 !important;
-      color: #ffffff;
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.2);
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
     }
 
     /* Active rendering rules activated dynamically during fullscreen triggers */
@@ -158,23 +157,32 @@
     .social-icon-svg { width: 20px; height: 20px; fill: currentColor; }
     .copyright-notice { font-size: 0.8rem; color: #4b5563; margin-top: 5px; letter-spacing: 0.5px; }
 
-   @media (max-width: 768px) {
+    @media (max-width: 768px) {
       .controls-grid { grid-template-columns: 1fr; gap: 15px; }
       .premium-header { padding: 15px 20px; }
       .header-title { font-size: 1.05rem; }
-      .fullscreen-brand-img { width: 55px; height: 55px; top: 15px; left: 15px; }
+      .fullscreen-brand-img { width: 65px; height: 65px; top: 15px; left: 15px; }
       
-      /* 🔒 FIXED MOBILE LAYOUT SELECTOR: Forces maximum specific weight priority to align on compact displays */
+      /* 🔒 FIXED MOBILE SPECIFICITY WEIGHT MATRIX LAYER */
+      .viewer-modal-box .fullscreen-floating-exit-node,
+      #fullscreenReaderCardBox .fullscreen-floating-exit-node,
       #floatingExitFullscreenBtn { 
+        display: none !important;
+        position: absolute !important;
         top: 15px !important; 
         right: 15px !important; 
-        padding: 6px 12px !important; 
-        font-size: 0.75rem !important; 
+        padding: 8px 16px !important; 
+        font-size: 0.8rem !important;
+        z-index: 99999 !important;
+      }
+      
+      /* Reactive toggle classes to guarantee visibility in mobile fullscreen context overlays */
+      .viewer-modal-box:fullscreen #floatingExitFullscreenBtn,
+      .viewer-modal-box:-webkit-full-screen #floatingExitFullscreenBtn {
+        display: flex !important;
       }
     }
   </style>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 <body oncontextmenu="return false;">
 
@@ -214,7 +222,7 @@
   <div class="dashboard-layout">
     <main class="controls-grid glass-card">
       <div class="select-group">
-        <label for="gradeSelection">Select Academic Grade / Class</label>
+        <labelfor="gradeSelection">Select Academic Grade / Class</label>
         <select id="gradeSelection">
           <option value="" disabled selected>Choose Class Level</option>
           <option value="Pre-KG">Pre-KG</option>
@@ -422,7 +430,15 @@
             else if (book.fileURL.includes('/d/')) { driveId = book.fileURL.split('/d/')[1].split('/')[0]; }
             
             if (driveId) {
-              document.getElementById('inlinePdfStreamer').src = `https://drive.google.com/file/d/${driveId}/preview`;
+              // 🔒 MOBILE PERFORMANCE MATRIX DETECTOR ENGINE
+              // If user is on a mobile device, automatically use Google's lightning-fast dynamic bview streamer
+              const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+              if (isMobile) {
+                document.getElementById('inlinePdfStreamer').src = `https://docs.google.com/viewer?srcid=${driveId}&pid=explorer&efh=false&a=v&chrome=false&embedded=true`;
+              } else {
+                document.getElementById('inlinePdfStreamer').src = `https://drive.google.com/file/d/${driveId}/preview`;
+              }
+              
               document.getElementById('readerOverlayFrame').style.display = 'flex';
             } else {
               alert("Link parsing failed. Please check document parameters.");
@@ -442,7 +458,6 @@
     const floatingExitFullscreenBtn = document.getElementById('floatingExitFullscreenBtn');
     const toolbarHeader = document.getElementById('readerToolbarHeader');
 
-    // Centralized function helper to execute full screen exit routines smoothly
     function triggerNormalScreenModeRelease() {
       if (document.exitFullscreen) { document.exitFullscreen(); }
       else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
@@ -470,7 +485,6 @@
       }
     });
 
-    // 🌟 CONNECT FLOATING CLOSE BUTTON EVENT: Calls the script breakout function seamlessly
     floatingExitFullscreenBtn.addEventListener('click', () => {
       triggerNormalScreenModeRelease();
     });
