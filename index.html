@@ -27,7 +27,6 @@
     .portal-title { font-size: 1.7rem; font-weight: 700; background: linear-gradient(to right, #ffffff, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
     .portal-subtitle { font-size: 0.85rem; color: #94a3b8; margin-bottom: 25px; }
     
-    /* Premium Google Authentication Button */
     .google-auth-btn {
       width: 100%;
       padding: 14px;
@@ -49,13 +48,11 @@
     .google-auth-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3); background: #f9fafb; }
     .google-icon { width: 20px; height: 20px; }
 
-    /* Decorative Text Divider line */
     .divider-container { display: flex; align-items: center; text-align: center; margin-bottom: 25px; color: #4b5563; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; }
     .divider-container::before, .divider-container::after { content: ''; flex: 1; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
     .divider-container:not(:empty)::before { margin-right: .75em; }
     .divider-container:not(:empty)::after { margin-left: .75em; }
 
-    /* Form Structuring grids */
     .form-row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     .form-group { margin-bottom: 16px; text-align: left; }
     .form-group label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; margin-bottom: 6px; font-weight: 500; }
@@ -70,7 +67,6 @@
     .error-box { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #fca5a5; padding: 12px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 16px; display: none; text-align: left; line-height: 1.4; }
     .success-box { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); color: #a7f3d0; padding: 12px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 16px; display: none; text-align: left; }
 
-    /* Branded Footer Container */
     .site-footer { width: 100%; padding: 25px 20px; text-align: center; background: rgba(255, 255, 255, 0.01); border-top: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 10px; }
     .footer-logo { width: 40px; height: 40px; object-fit: contain; border-radius: 50%; filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3)); }
     .footer-text { font-size: 0.85rem; color: #94a3b8; letter-spacing: 0.5px; }
@@ -93,7 +89,7 @@
 
       <button type="button" class="google-auth-btn" id="googleSignInAction">
         <svg class="google-icon" viewBox="0 0 24 24">
-          <path fill="#MA4335" d="M12.24 10.285V14.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.866-3.577-7.866-8s3.536-8 7.866-8c2.46 0 4.105 1.025 5.047 1.926l3.227-3.107C18.435 2.038 15.65 1 12.24 1 6.133 1 1.133 6.002 1.133 12s5 11 11.107 11c6.376 0 10.615-4.481 10.615-10.804 0-.727-.08-1.282-.175-1.911H12.24z"/>
+          <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.866-3.577-7.866-8s3.536-8 7.866-8c2.46 0 4.105 1.025 5.047 1.926l3.227-3.107C18.435 2.038 15.65 1 12.24 1 6.133 1 1.133 6.002 1.133 12s5 11 11.107 11c6.376 0 10.615-4.481 10.615-10.804 0-.727-.08-1.282-.175-1.911H12.24z"/>
         </svg>
         Continue with Google
       </button>
@@ -145,9 +141,9 @@
     </div>
   </footer>
 
- <script type="module">
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -165,8 +161,6 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     const googleProvider = new GoogleAuthProvider();
-
-    // Enforce clean profile custom parameters initialization on the provider instantiations
     googleProvider.setCustomParameters({ prompt: 'select_account' });
 
     let isLoginMode = true;
@@ -175,13 +169,13 @@
     const formSubTitle = document.getElementById('formSubTitle');
     const submitButtonAction = document.getElementById('submitButtonAction');
     const toggleFormPrompt = document.getElementById('toggleFormPrompt');
-    const toggleActionButton = document.getElementById('toggleActionButton');
     const errorBox = document.getElementById('errorMessageBox');
     const successBox = document.getElementById('successMessageBox');
     const registrationNameRow = document.getElementById('registrationNameRow');
     const registrationPhoneGroup = document.getElementById('registrationPhoneGroup');
 
-    toggleActionButton.addEventListener('click', () => {
+    // FIXED: Clean function matrix instead of deprecated arguments.callee loop
+    function handleFormToggle() {
       isLoginMode = !isLoginMode;
       errorBox.style.display = 'none';
       successBox.style.display = 'none';
@@ -192,30 +186,34 @@
         formSubTitle.textContent = "Enter your school credentials to access the bookshelf";
         submitButtonAction.textContent = "Verify Access Keys";
         toggleFormPrompt.innerHTML = 'New to the library platform? <span id="toggleActionButton">Register Here</span>';
-        registrationNameRow.style.display = 'none';
-        registrationPhoneGroup.style.display = 'none';
       } else {
         formMainTitle.textContent = "Create Account";
         formSubTitle.textContent = "Register your credentials for digital access";
         submitButtonAction.textContent = "Register New Account";
         toggleFormPrompt.innerHTML = 'Already registered? <span id="toggleActionButton">Login Here</span>';
-        registrationNameRow.style.display = 'grid';
-        registrationPhoneGroup.style.display = 'block';
       }
-      document.getElementById('toggleActionButton').addEventListener('click', arguments.callee);
-    });
+      
+      // Re-attach listener cleanly to the new innerHTML node item
+      document.getElementById('toggleActionButton').addEventListener('click', handleFormToggle);
+    }
 
-    // High-Performance One-Click Google Sign-In Action Routine
+    // Initial binding execution
+    document.getElementById('toggleActionButton').addEventListener('click', handleFormToggle);
+
+    // FIXED: Redirect flow catches asynchronous tokens, bypassing local popup context blocks
     document.getElementById('googleSignInAction').addEventListener('click', () => {
       errorBox.style.display = 'none';
       successBox.style.display = 'none';
+      signInWithRedirect(auth, googleProvider);
+    });
 
-      signInWithPopup(auth, googleProvider)
-        .then(async (result) => {
+    // Handle return token data payload from Google securely on document mount load
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (result && result.user) {
           const user = result.user;
           const nameParts = user.displayName ? user.displayName.split(" ") : ["Student", "User"];
           
-          // Write Google profile metrics straight into our isolated users collection databank
           await setDoc(doc(db, "library_users", user.uid), {
             firstName: nameParts[0],
             lastName: nameParts[1] || "",
@@ -225,22 +223,15 @@
             registeredAt: new Date().toISOString()
           }, { merge: true });
 
-          // Forward instantly straight into the textbooks bookshelf
           window.location.href = 'library-dashboard.html';
-        })
-        .catch((err) => {
-          errorBox.style.display = 'block';
-          // Cleanly maps out structural descriptive messages on interface logs
-          if(err.code === 'auth/popup-blocked') {
-            errorBox.textContent = "🔒 Pop-up blocked by your browser. Please permit pop-ups for this domain endpoint to continue.";
-          } else {
-            errorBox.textContent = `❌ Security Authorization Rejected: ${err.message.replace("Firebase: ", "")}`;
-          }
-          console.error(err);
-        });
-    });
+        }
+      })
+      .catch((err) => {
+        errorBox.style.display = 'block';
+        errorBox.textContent = `❌ Security Authorization Rejected: ${err.message.replace("Firebase: ", "")}`;
+      });
 
-    // Standard Email Password Form Submissions
+    // Standard Form Email Handler Loops
     document.getElementById('authSystemForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const email = document.getElementById('userEmail').value;
@@ -273,16 +264,16 @@
             });
             successBox.style.display = 'block';
             successBox.textContent = "🎉 Registration complete! Flipping to Login view...";
-            setTimeout(() => { toggleActionButton.click(); }, 2000);
+            setTimeout(() => { handleFormToggle(); }, 2000);
           })
           .catch((err) => {
-            errorBox.style.display = 'block';
+            errorBox.style.save = 'block';
             errorBox.textContent = `❌ Registration Rejected: ${err.message.replace("Firebase: ", "")}`;
           });
       }
     });
 
-    // Animated particle starfield matrix builder
+    // Starfield Particle Loop
     const starfield = document.getElementById('starfield');
     for (let i = 0; i < 80; i++) {
       const star = document.createElement('div');
