@@ -387,16 +387,24 @@
           card.className = 'book-card glass-card';
           card.innerHTML = `<div class="book-cover-placeholder">📘</div><div class="book-title">${book.title}</div><div class="book-info-tag">Author: ${book.author || 'Academic Panel'}</div>`;
           
-          card.addEventListener('click', () => {
-            document.getElementById('modalBookTitleDisplay').textContent = book.title;
+         card.addEventListener('click', () => {
             let driveId = "";
             if (book.fileURL.includes('id=')) { driveId = book.fileURL.split('id=')[1].split('&')[0]; } 
             else if (book.fileURL.includes('/d/')) { driveId = book.fileURL.split('/d/')[1].split('/')[0]; }
             
             if (driveId) {
-              // 🔒 FIXED DESIGN STRATEGY: Keeps standard preview paths consistent on both desktop and mobile layouts to guarantee loading verification
-              document.getElementById('inlinePdfStreamer').src = `https://drive.google.com/file/d/${driveId}/preview`;
-              document.getElementById('readerOverlayFrame').style.display = 'flex';
+              // 📱 HIGH-SPEED MOBILE ACCELERATION WORKER
+              const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+              
+              if (isMobile) {
+                // Instantly routes the file directly into the phone's hardware rendering engine (Loads instantly!)
+                window.open(`https://docs.google.com/uc?export=view&id=${driveId}`, '_blank');
+              } else {
+                // Keeps your premium glassmorphic modal box active on high-end desktops
+                document.getElementById('modalBookTitleDisplay').textContent = book.title;
+                document.getElementById('inlinePdfStreamer').src = `https://drive.google.com/file/d/${driveId}/preview`;
+                document.getElementById('readerOverlayFrame').style.display = 'flex';
+              }
             } else {
               alert("Link parsing failed. Please check document parameters.");
             }
