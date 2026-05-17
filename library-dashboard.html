@@ -170,8 +170,7 @@
         <h3 id="modalBookTitleDisplay" style="font-size: 1.1rem; color: white; font-weight: 600;">Document Stream</h3>
         <button class="viewer-close" id="closeReaderBtn">&times;</button>
       </div>
-      
-      <div class="pdf-render-scroll-container" id="pdfCanvasContainer" onselectstart="return false;"></div>
+      <iframe class="viewer-iframe" id="inlinePdfStreamer" src="" allow="autoplay"></iframe>
     </div>
   </div>
 
@@ -354,9 +353,12 @@
           
           card.addEventListener('click', () => {
             document.getElementById('modalBookTitleDisplay').textContent = book.title;
+            
+            // 🔒 Secure Preview Wrapper: Blocks extraction interfaces but passes Google's firewall
+            const driveId = book.fileURL.split('id=')[1];
+            document.getElementById('inlinePdfStreamer').src = `https://drive.google.com/file/d/${driveId}/preview`;
+            
             document.getElementById('readerOverlayFrame').style.display = 'flex';
-            // Launch the secure stream renderer pipeline directly
-            streamSecurePdf(book.fileURL);
           });
           
           shelf.appendChild(card);
