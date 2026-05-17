@@ -21,30 +21,20 @@
       100% { transform: translate(-50%, -50%) translate3d(calc(var(--tx) * 8), calc(var(--ty) * 8), 0) scale(var(--max-scale)); box-shadow: 0 0 8px rgba(255, 255, 255, 0.5); opacity: 0; }
     }
 
+    /* Premium Institutional Header */
+    .premium-header { width: 100%; padding: 20px 40px; display: flex; align-items: center; gap: 20px; background: rgba(255, 255, 255, 0.01); border-bottom: 1px solid rgba(255, 255, 255, 0.06); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10; }
+    .header-logo { width: 55px; height: 55px; object-fit: contain; border-radius: 50%; filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4)); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .header-text-container { display: flex; flex-direction: column; }
+    .header-title { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.5px; color: #ffffff; text-transform: uppercase; }
+    .header-subtitle { font-size: 0.85rem; font-weight: 500; color: #60a5fa; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
     .portal-wrapper { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; z-index: 5; position: relative; }
     .auth-panel { width: 100%; max-width: 480px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 28px; padding: 35px 30px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); text-align: center; }
     .branding-icon { width: 70px; height: 70px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; font-size: 2rem; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
     .portal-title { font-size: 1.7rem; font-weight: 700; background: linear-gradient(to right, #ffffff, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
     .portal-subtitle { font-size: 0.85rem; color: #94a3b8; margin-bottom: 25px; }
     
-    .google-auth-btn {
-      width: 100%;
-      padding: 14px;
-      background: #ffffff;
-      border: none;
-      border-radius: 12px;
-      color: #1f2937;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      transition: all 0.3s ease;
-      margin-bottom: 25px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
+    .google-auth-btn { width: 100%; padding: 14px; background: #ffffff; border: none; border-radius: 12px; color: #1f2937; font-size: 0.95rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; transition: all 0.3s ease; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
     .google-auth-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3); background: #f9fafb; }
     .google-icon { width: 20px; height: 20px; }
 
@@ -56,24 +46,58 @@
     .form-row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     .form-group { margin-bottom: 16px; text-align: left; }
     .form-group label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; margin-bottom: 6px; font-weight: 500; }
-    .input-wrapper input { width: 100%; padding: 12px 16px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; color: white; font-size: 0.9rem; outline: none; transition: all 0.3s ease; }
+    
+    /* Input Wrapper & Password Visibility Toggles */
+    .input-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
+    .input-wrapper input { width: 100%; padding: 12px 45px 12px 16px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; color: white; font-size: 0.9rem; outline: none; transition: all 0.3s ease; }
     .input-wrapper input:focus { border-color: #3b82f6; background: rgba(255, 255, 255, 0.08); box-shadow: 0 0 15px rgba(59, 130, 246, 0.25); }
+    .input-wrapper input:not([type="password"]) { padding-right: 45px; }
+    .input-wrapper input[type="email"], .input-wrapper input[type="text"], .input-wrapper input[type="tel"] { padding-right: 16px; }
+
+    .password-toggle-eye { position: absolute; right: 16px; color: #94a3b8; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; transition: color 0.2s; z-index: 6; }
+    .password-toggle-eye:hover { color: #60a5fa; }
     
     .action-btn { width: 100%; padding: 14px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; border-radius: 12px; color: white; font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-top: 5px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
     .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5); }
     
-    .toggle-form-text { margin-top: 20px; font-size: 0.85rem; color: #94a3b8; }
+    .secondary-links-container { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 0.8rem; }
+    .forgot-pass-link { color: #94a3b8; cursor: pointer; text-decoration: none; transition: color 0.2s; }
+    .forgot-pass-link:hover { color: #60a5fa; text-decoration: underline; }
+
+    .toggle-form-text { margin-top: 25px; font-size: 0.85rem; color: #94a3b8; }
     .toggle-form-text span { color: #60a5fa; cursor: pointer; font-weight: 600; text-decoration: underline; }
     .error-box { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #fca5a5; padding: 12px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 16px; display: none; text-align: left; line-height: 1.4; }
     .success-box { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); color: #a7f3d0; padding: 12px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 16px; display: none; text-align: left; }
 
-    .site-footer { width: 100%; padding: 25px 20px; text-align: center; background: rgba(255, 255, 255, 0.01); border-top: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .footer-logo { width: 40px; height: 40px; object-fit: contain; border-radius: 50%; filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3)); }
-    .footer-text { font-size: 0.85rem; color: #94a3b8; letter-spacing: 0.5px; }
-    .footer-text strong { color: #ffffff; font-weight: 600; }
+    /* Modal Styling */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-card { width: 90%; max-width: 420px; background: #0b1528; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6); transform: translateY(-20px); transition: transform 0.3s ease; }
+    .modal-overlay.active .modal-card { transform: translateY(0); }
+    .modal-close-btn { margin-top: 15px; background: transparent; border: none; color: #94a3b8; font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
+    .modal-close-btn:hover { color: white; }
+
+    /* Premium Connect Social Media Footer Layout */
+    .site-footer { width: 100%; padding: 30px 20px; text-align: center; background: rgba(255, 255, 255, 0.01); border-top: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+    .footer-headline { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; }
+    .social-media-container { display: flex; align-items: center; justify-content: center; gap: 22px; }
+    
+    .social-icon-link { width: 44px; height: 44px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; color: #cbd5e1; text-decoration: none; }
+    .social-icon-link:hover { background: rgba(59, 130, 246, 0.1); border-color: #3b82f6; color: #60a5fa; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2); }
+    .social-icon-svg { width: 20px; height: 20px; fill: currentColor; }
+    
+    .copyright-notice { font-size: 0.8rem; color: #4b5563; margin-top: 5px; letter-spacing: 0.5px; }
   </style>
 </head>
 <body>
+
+  <header class="premium-header">
+    <img src="logo.png" alt="Paramount Institutional Emblem" class="header-logo" onerror="this.style.display='none'">
+    <div class="header-text-container">
+      <h1 class="header-title">Paramount English Medium High School</h1>
+      <div class="header-subtitle">Digital Library</div>
+    </div>
+  </header>
 
   <div class="background"></div>
   <div class="starfield" id="starfield"></div>
@@ -100,41 +124,48 @@
         <div class="form-row-grid" id="registrationNameRow" style="display: none;">
           <div class="form-group">
             <label for="firstName">First Name</label>
-            <div class="input-wrapper"><input type="text" id="firstName" placeholder="Tauseef" /></div>
+            <div class="input-wrapper"><input type="text" id="firstName" placeholder="-" /></div>
           </div>
           <div class="form-group">
             <label for="lastName">Last Name</label>
-            <div class="input-wrapper"><input type="text" id="lastName" placeholder="Shaik" /></div>
+            <div class="input-wrapper"><input type="text" id="lastName" placeholder="-" /></div>
           </div>
         </div>
 
         <div class="form-group" id="registrationPhoneGroup" style="display: none;">
           <label for="phoneNumber">Phone Number</label>
-          <div class="input-wrapper"><input type="tel" id="phoneNumber" placeholder="+91 98765 43210" /></div>
+          <div class="input-wrapper"><input type="tel" id="phoneNumber" placeholder="Your Phone Number" /></div>
         </div>
 
         <div class="form-group">
           <label for="userEmail">Email Address</label>
           <div class="input-wrapper">
-            <input type="email" id="userEmail" placeholder="student@paramountschooledu.in" required />
+            <input type="email" id="userEmail" placeholder="example@gmail.com" required />
           </div>
         </div>
 
         <div class="form-group">
           <label for="userPassword" id="passwordLabel">Password</label>
           <div class="input-wrapper">
-            <input type="password" id="userPassword" placeholder="••••••••" required />
+            <input type="password" id="userPassword" placeholder="Enter Your Password" required />
+            <span class="password-toggle-eye" id="toggleMainPasswordEye">👁️</span>
           </div>
         </div>
 
         <div class="form-group" id="confirmPasswordGroup" style="display: none;">
           <label for="confirmPassword">Confirm Password</label>
           <div class="input-wrapper">
-            <input type="password" id="confirmPassword" placeholder="••••••••" />
+            <input type="password" id="confirmPassword" placeholder="Enter the Password again" />
+            <span class="password-toggle-eye" id="toggleConfirmPasswordEye">👁️</span>
           </div>
         </div>
 
         <button type="submit" class="action-btn" id="submitButtonAction">Verify Access Keys</button>
+        
+        <div class="secondary-links-container" id="forgotPasswordContainer">
+          <div></div>
+          <span class="forgot-pass-link" id="openForgotModalAction">Forgot Password / Create Manual Pass</span>
+        </div>
       </form>
 
       <p class="toggle-form-text" id="toggleFormPrompt">
@@ -143,16 +174,52 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="passwordResetModal">
+    <div class="modal-card">
+      <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: white;">Account Recovery & Setup</h3>
+      <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 20px;">Forgot password or converting a Google sign-up? Enter your email to receive a secure password setup link.</p>
+      
+      <div class="form-group">
+        <label for="resetEmailInput">Your Registered Email</label>
+        <div class="input-wrapper"><input type="email" id="resetEmailInput" placeholder="student@gmail.com" /></div>
+      </div>
+      
+      <button type="button" class="action-btn" id="sendResetEmailBtn">Send Secure Reset Link</button>
+      <br>
+      <button type="button" class="modal-close-btn" id="closeForgotModalAction">Cancel and Return</button>
+    </div>
+  </div>
+
   <footer class="site-footer">
-    <img src="logo.png" alt="Paramount Institutional Emblem" class="footer-logo">
-    <div class="footer-text">
+    <div class="footer-headline">Connect With Us</div>
+    <div class="social-media-container">
+      <a href=" www.facebook.com/paramountschoolwgl" target="_blank" class="social-icon-link" title="Facebook">
+        <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg>
+      </a>
+      <a href="www.instagram.com/paramountschoolwgl" target="_blank" class="social-icon-link" title="Instagram">
+        <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      </a>
+      <a href=" www.youtube.com/@paramountschoolwgl" target="_blank" class="social-icon-link" title="YouTube">
+        <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+      <a href="mailto:academicsupport@paramountschooledu.in" class="social-icon-link" title="Email Us">
+        <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </a>
+      <a href="tel:+919652188807" class="social-icon-link" title="Call Institution">
+        <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1A11.36 11.36 0 008.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>
+      </a>
+      <a href="https://wa.me/919652188807" target="_blank" class="social-icon-link" title="Chat on WhatsApp">
+        <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.546c1.614.957 3.197 1.498 4.819 1.499 5.429 0 9.847-4.415 9.85-9.842.002-2.63-1.02-5.101-2.881-6.963C16.564 2.285 14.1 1.26 11.469 1.26c-5.434 0-9.854 4.417-9.857 9.846-.001 1.706.449 3.371 1.305 4.843l-.988 3.606 3.718-.975zm13.14-5.31c-.303-.152-1.794-.885-2.072-.986-.279-.101-.482-.152-.684.152-.202.304-.783.986-.96 1.189-.177.202-.355.228-.658.076-.303-.152-1.28-.472-2.439-1.506-.902-.805-1.512-1.8-1.689-2.103-.177-.304-.019-.468.132-.619.136-.136.304-.355.456-.532.152-.177.202-.304.304-.506.101-.202.051-.38-.025-.532-.076-.152-.684-1.647-.937-2.255-.247-.593-.499-.513-.684-.522-.177-.009-.38-.01-.583-.01-.203 0-.532.076-.811.38-.279.304-1.064 1.039-1.064 2.533 0 1.495 1.089 2.939 1.241 3.142.152.203 2.143 3.273 5.192 4.588.725.313 1.291.5 1.734.641.728.231 1.391.199 1.915.121.584-.087 1.794-.734 2.048-1.443.253-.709.253-1.317.177-1.443-.076-.126-.279-.203-.583-.355z"/></svg>
+      </a>
+    </div>
+    <div class="copyright-notice">
       2026 &copy; <strong>PARAMOUNT ENGLISH MEDIUM HIGH SCHOOL</strong> | All Rights Reserved.
     </div>
   </footer>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, sendPasswordResetEmail, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -184,12 +251,20 @@
     const registrationPhoneGroup = document.getElementById('registrationPhoneGroup');
     const confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
     const passwordLabel = document.getElementById('passwordLabel');
+    const forgotPasswordContainer = document.getElementById('forgotPasswordContainer');
+    const resetModal = document.getElementById('passwordResetModal');
 
     function handleFormToggle() {
       isLoginMode = !isLoginMode;
       errorBox.style.display = 'none';
       successBox.style.display = 'none';
       document.getElementById('authSystemForm').reset();
+      
+      // Reset all password input fields to masked password state on toggle view changes
+      document.getElementById('userPassword').type = "password";
+      document.getElementById('confirmPassword').type = "password";
+      document.getElementById('toggleMainPasswordEye').textContent = "👁️";
+      document.getElementById('toggleConfirmPasswordEye').textContent = "👁️";
 
       if (isLoginMode) {
         formMainTitle.textContent = "Digital Library Login";
@@ -197,10 +272,10 @@
         submitButtonAction.textContent = "Verify Access Keys";
         toggleFormPrompt.innerHTML = 'New to the library platform? <span id="toggleActionButton">Register Here</span>';
         
-        // 🔑 FIXED: Removed broken style.style syntax crash reference loop
         registrationNameRow.style.display = 'none';
         registrationPhoneGroup.style.display = 'none';
         confirmPasswordGroup.style.display = 'none';
+        forgotPasswordContainer.style.display = 'flex';
         
         passwordLabel.textContent = "Password";
         document.getElementById('confirmPassword').removeAttribute('required');
@@ -213,20 +288,63 @@
         registrationNameRow.style.display = 'grid';
         registrationPhoneGroup.style.display = 'block';
         confirmPasswordGroup.style.display = 'block';
+        forgotPasswordContainer.style.display = 'none';
         
         passwordLabel.textContent = "Create Password";
         document.getElementById('confirmPassword').setAttribute('required', 'true');
       }
     }
 
-    // Dynamic clean click delegation tracker for toggling forms cleanly
     document.body.addEventListener('click', function(e) {
       if (e.target && e.target.id === 'toggleActionButton') {
         handleFormToggle();
       }
     });
 
-    // 🔑 FIXED: Upgraded provider implementation to standard Popup mapping to prevent token routing loop drops
+    // 🔑 Interactive Eye Visibility Toggles Script Controller Logic
+    function setupPasswordToggle(eyeId, inputId) {
+      document.getElementById(eyeId).addEventListener('click', function() {
+        const passwordInput = document.getElementById(inputId);
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          this.textContent = "🙈";
+        } else {
+          passwordInput.type = "password";
+          this.textContent = "👁️";
+        }
+      });
+    }
+    setupPasswordToggle('toggleMainPasswordEye', 'userPassword');
+    setupPasswordToggle('toggleConfirmPasswordEye', 'confirmPassword');
+
+    // Forgot Password Modal Controls
+    document.getElementById('openForgotModalAction').addEventListener('click', () => {
+      resetModal.classList.add('active');
+      document.getElementById('resetEmailInput').value = document.getElementById('userEmail').value;
+    });
+    document.getElementById('closeForgotModalAction').addEventListener('click', () => {
+      resetModal.classList.remove('active');
+    });
+
+    document.getElementById('sendResetEmailBtn').addEventListener('click', () => {
+      const resetEmail = document.getElementById('resetEmailInput').value.trim();
+      if (!resetEmail) {
+        alert("Please provide a valid account email address first.");
+        return;
+      }
+      
+      sendPasswordResetEmail(auth, resetEmail)
+        .then(() => {
+          resetModal.classList.remove('active');
+          successBox.style.display = 'block';
+          successBox.textContent = `🎉 System setup link dispatched! Check your inbox at ${resetEmail} to verify your password keys.`;
+          errorBox.style.display = 'none';
+        })
+        .catch((err) => {
+          alert(`Could not process request: ${err.message.replace("Firebase: ", "")}`);
+        });
+    });
+
     document.getElementById('googleSignInAction').addEventListener('click', () => {
       errorBox.style.display = 'none';
       successBox.style.display = 'none';
@@ -237,7 +355,6 @@
             const user = result.user;
             const nameParts = user.displayName ? user.displayName.split(" ") : ["Student", "User"];
             
-            // Checks if data exists; updates safely if already registered or logs a clean path if brand new
             await setDoc(doc(db, "library_users", user.uid), {
               firstName: nameParts[0],
               lastName: nameParts[1] || "",
@@ -263,7 +380,7 @@
 
     document.getElementById('authSystemForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const email = document.getElementById('userEmail').value;
+      const email = document.getElementById('userEmail').value.trim();
       const password = document.getElementById('userPassword').value;
       errorBox.style.display = 'none';
       successBox.style.display = 'none';
@@ -306,12 +423,15 @@
           })
           .catch((err) => {
             errorBox.style.display = 'block';
-            errorBox.textContent = `❌ Registration Rejected: ${err.message.replace("Firebase: ", "")}`;
+            if (err.code === 'auth/email-already-in-use') {
+              errorBox.innerHTML = '❌ Email already registered! If you originally signed up via Google, return to the login screen and use the <strong>"Forgot Password / Create Manual Pass"</strong> link to link a password to this account.';
+            } else {
+              errorBox.textContent = `❌ Registration Rejected: ${err.message.replace("Firebase: ", "")}`;
+            }
           });
       }
     });
 
-    // Premium Cosmic Particle Field Generator Matrix Engine
     const starfield = document.getElementById('starfield');
     for (let i = 0; i < 80; i++) {
       const star = document.createElement('div');
