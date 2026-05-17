@@ -119,12 +119,21 @@
             <input type="email" id="userEmail" placeholder="student@paramountschooledu.in" required />
           </div>
         </div>
+
         <div class="form-group">
-          <label for="userPassword">Password</label>
+          <label for="userPassword" id="passwordLabel">Password</label>
           <div class="input-wrapper">
             <input type="password" id="userPassword" placeholder="••••••••" required />
           </div>
         </div>
+
+        <div class="form-group" id="confirmPasswordGroup" style="display: none;">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="confirmPassword" placeholder="••••••••" />
+          </div>
+        </div>
+
         <button type="submit" class="action-btn" id="submitButtonAction">Verify Access Keys</button>
       </form>
 
@@ -147,14 +156,14 @@
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
     const firebaseConfig = {
-     apiKey: "AIzaSyAzUOh21Ec31kKmf42Tcw-xs4fVZyPh2fM", 
-  authDomain: "paramount-school-d55bc.firebaseapp.com",
-  databaseURL: "https://paramount-school-d55bc-default-rtdb.firebaseio.com",
-  projectId: "paramount-school-d55bc",
-  storageBucket: "paramount-school-d55bc.firebasestorage.app",
-  messagingSenderId: "130979432562",
-  appId: "1:130979432562:web:4cd94787b23f9daba51aeb",
-  measurementId: "G-ZMZHXB5GFM"
+      apiKey: "AIzaSyAzUOh21Ec31kKmf42Tcw-xs4fVZyPh2fM", 
+      authDomain: "paramount-school-d55bc.firebaseapp.com",
+      databaseURL: "https://paramount-school-d55bc-default-rtdb.firebaseio.com",
+      projectId: "paramount-school-d55bc",
+      storageBucket: "paramount-school-d55bc.firebasestorage.app",
+      messagingSenderId: "130979432562",
+      appId: "1:130979432562:web:4cd94787b23f9daba51aeb",
+      measurementId: "G-ZMZHXB5GFM"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -173,6 +182,8 @@
     const successBox = document.getElementById('successMessageBox');
     const registrationNameRow = document.getElementById('registrationNameRow');
     const registrationPhoneGroup = document.getElementById('registrationPhoneGroup');
+    const confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
+    const passwordLabel = document.getElementById('passwordLabel');
 
     function handleFormToggle() {
       isLoginMode = !isLoginMode;
@@ -185,8 +196,10 @@
         formSubTitle.textContent = "Enter your school credentials to access the bookshelf";
         submitButtonAction.textContent = "Verify Access Keys";
         toggleFormPrompt.innerHTML = 'New to the library platform? <span id="toggleActionButton">Register Here</span>';
-        registrationNameRow.style.display = 'none';
+        registrationNameRow.style.style.display = 'none';
         registrationPhoneGroup.style.display = 'none';
+        confirmPasswordGroup.style.display = 'none';
+        passwordLabel.textContent = "Password";
       } else {
         formMainTitle.textContent = "Create Account";
         formSubTitle.textContent = "Register your credentials for digital access";
@@ -194,6 +207,8 @@
         toggleFormPrompt.innerHTML = 'Already registered? <span id="toggleActionButton">Login Here</span>';
         registrationNameRow.style.display = 'grid';
         registrationPhoneGroup.style.display = 'block';
+        confirmPasswordGroup.style.display = 'block';
+        passwordLabel.textContent = "Create Password";
       }
       document.getElementById('toggleActionButton').addEventListener('click', handleFormToggle);
     }
@@ -206,7 +221,6 @@
       signInWithRedirect(auth, googleProvider);
     });
 
-// Look for getRedirectResult(auth) inside your index.html script tag
     getRedirectResult(auth)
       .then(async (result) => {
         if (result && result.user) {
@@ -222,7 +236,6 @@
             registeredAt: new Date().toISOString()
           }, { merge: true });
 
-          // 🔑 FIXED: Uses explicit relative path to find your dashboard file in the same folder
           window.location.href = './library-dashboard.html';
         }
       })
@@ -238,10 +251,9 @@
       errorBox.style.display = 'none';
       successBox.style.display = 'none';
 
-    if (isLoginMode) {
+      if (isLoginMode) {
         signInWithEmailAndPassword(auth, email, password)
           .then(() => { 
-            // 🔑 FIXED: Uses explicit relative path here as well
             window.location.href = './library-dashboard.html'; 
           })
           .catch(() => {
@@ -252,6 +264,13 @@
         const fName = document.getElementById('firstName').value || "Student";
         const lName = document.getElementById('lastName').value || "";
         const phone = document.getElementById('phoneNumber').value || "None Provided";
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+          errorBox.style.display = 'block';
+          errorBox.textContent = "❌ Passwords do not match. Please verify your entries.";
+          return;
+        }
 
         createUserWithEmailAndPassword(auth, email, password)
           .then(async (userCredential) => {
