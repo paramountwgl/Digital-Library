@@ -206,6 +206,7 @@
       signInWithRedirect(auth, googleProvider);
     });
 
+// Look for getRedirectResult(auth) inside your index.html script tag
     getRedirectResult(auth)
       .then(async (result) => {
         if (result && result.user) {
@@ -221,7 +222,8 @@
             registeredAt: new Date().toISOString()
           }, { merge: true });
 
-          window.location.href = 'library-dashboard.html';
+          // 🔑 FIXED: Uses explicit relative path to find your dashboard file in the same folder
+          window.location.href = './library-dashboard.html';
         }
       })
       .catch((err) => {
@@ -236,9 +238,12 @@
       errorBox.style.display = 'none';
       successBox.style.display = 'none';
 
-      if (isLoginMode) {
+    if (isLoginMode) {
         signInWithEmailAndPassword(auth, email, password)
-          .then(() => { window.location.href = 'library-dashboard.html'; })
+          .then(() => { 
+            // 🔑 FIXED: Uses explicit relative path here as well
+            window.location.href = './library-dashboard.html'; 
+          })
           .catch(() => {
             errorBox.style.display = 'block';
             errorBox.textContent = "❌ Verification failed. Confirm account entry parameters match.";
