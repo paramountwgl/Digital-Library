@@ -71,7 +71,7 @@
     .viewer-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(15px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
     .viewer-modal-box { width: 100%; max-width: 1000px; height: 88vh; background: #0b1224; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.7); position: relative; transition: max-width 0.3s, height 0.3s; outline: none !important; }
     
-    /* 🔒 HARD LOCKDOWN: Strips browser active blue border/focus ring shapes */
+    /* 🔒 FOCUS LOCKDOWN: Suppresses native browser accent outline borders entirely during full screen actions */
     .viewer-modal-box:fullscreen,
     #fullscreenReaderCardBox:fullscreen,
     #fullscreenReaderCardBox:-webkit-full-screen { max-width: 100vw !important; height: 100vh !important; border-radius: 0px !important; border: none !important; outline: none !important; box-shadow: none !important; background: #0b1224 !important; }
@@ -86,7 +86,7 @@
     
     .viewer-iframe { position: absolute; top: -50px; left: 0; height: calc(100% + 50px); width: 100%; border: none !important; outline: none !important; background: #111827; }
 
-    /* 🌟 REFINED BRAND WATERMARK: Floating transparently in the absolute top-left corner */
+    /* 🌟 PREMIUM BRAND WATERMARK NODE: Clean, borderless transparent structure sitting in the upper left workspace border */
     .fullscreen-branding-logo-node { 
       position: absolute; 
       top: 25px; 
@@ -101,7 +101,7 @@
       outline: none !important;
     }
 
-    /* Controls the visibility state only during active full-screen sessions */
+    /* Active rendering matrix updates only during fullscreen reading triggers */
     .viewer-modal-box:fullscreen .fullscreen-branding-logo-node { display: flex; }
     .viewer-modal-box:-webkit-full-screen .fullscreen-branding-logo-node { display: flex; }
 
@@ -140,7 +140,6 @@
     <div class="header-left-brand">
       <img src="logo.png" alt="Paramount Institutional Emblem" class="header-logo" onerror="this.style.display='none'">
       <div class="header-text-container">
-        <img src="logo.png" style="display:none;" onerror="/* pre-load cache matrix hooks */">
         <h1 class="header-title">Paramount English Medium High School</h1>
         <div class="header-subtitle">Digital Library</div>
       </div>
@@ -371,11 +370,8 @@
             document.getElementById('modalBookTitleDisplay').textContent = book.title;
             
             let driveId = "";
-            if (book.fileURL.includes('id=')) {
-              driveId = book.fileURL.split('id=')[1].split('&')[0];
-            } else if (book.fileURL.includes('/d/')) {
-              driveId = book.fileURL.split('/d/')[1].split('/')[0];
-            }
+            if (book.fileURL.includes('id=')) { driveId = book.fileURL.split('id=')[1].split('&')[0]; } 
+            else if (book.fileURL.includes('/d/')) { driveId = book.fileURL.split('/d/')[1].split('/')[0]; }
             
             if (driveId) {
               document.getElementById('inlinePdfStreamer').src = `https://drive.google.com/file/d/${driveId}/preview`;
