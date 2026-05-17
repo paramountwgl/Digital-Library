@@ -326,6 +326,7 @@
       resetModal.classList.remove('active');
     });
 
+    // 🔑 Secure Password Reset Email Automated Link Forwarder
     document.getElementById('sendResetEmailBtn').addEventListener('click', () => {
       const resetEmail = document.getElementById('resetEmailInput').value.trim();
       if (!resetEmail) {
@@ -333,11 +334,17 @@
         return;
       }
       
-      sendPasswordResetEmail(auth, resetEmail)
+      // Forces the free automated template link to target your website's clean reset page
+      const customActionSettings = {
+        url: 'https://digital-library.paramountschooledu.in/reset.html',
+        handleCodeInApp: true
+      };
+      
+      sendPasswordResetEmail(auth, resetEmail, customActionSettings)
         .then(() => {
           resetModal.classList.remove('active');
           successBox.style.display = 'block';
-          successBox.textContent = `🎉 System setup link dispatched! Check your inbox at ${resetEmail} to verify your password keys.`;
+          successBox.textContent = `🎉 Automated recovery link dispatched! Check your main inbox at ${resetEmail} to confirm your profile keys instantly.`;
           errorBox.style.display = 'none';
         })
         .catch((err) => {
