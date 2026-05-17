@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Digital Bookshelf Portal | Paramount School</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo.png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body { background-color: #030712; color: white; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
@@ -29,6 +30,7 @@
     .book-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.05); border-color: rgba(59, 130, 246, 0.3); }
     .book-cover-placeholder { width: 100px; height: 130px; background: linear-gradient(135deg, #1e3a8a, #3b82f6); border-radius: 8px; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
     .book-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; color: #ffffff; }
+    .book-card:hover .book-title { color: #93c5fd; }
     .book-info-tag { font-size: 0.85rem; color: #94a3b8; }
     .no-books-alert { text-align: center; color: #94a3b8; padding: 40px; grid-column: 1 / -1; font-size: 1.1rem; }
 
@@ -115,22 +117,22 @@
 
     const firebaseConfig = {
       apiKey: "AIzaSyDRYk9KOK-ga0c88dnYMsAoifW2NJTd_Y8",
-  authDomain: "paramount-school-d55bc.firebaseapp.com",
-  databaseURL: "https://paramount-school-d55bc-default-rtdb.firebaseio.com",
-  projectId: "paramount-school-d55bc",
-  storageBucket: "paramount-school-d55bc.firebasestorage.app",
-  messagingSenderId: "130979432562",
-  appId: "1:130979432562:web:4cd94787b23f9daba51aeb",
-  measurementId: "G-ZMZHXB5GFM"
+      authDomain: "paramount-school-d55bc.firebaseapp.com",
+      databaseURL: "https://paramount-school-d55bc-default-rtdb.firebaseio.com",
+      projectId: "paramount-school-d55bc",
+      storageBucket: "paramount-school-d55bc.firebasestorage.app",
+      messagingSenderId: "130979432562",
+      appId: "1:130979432562:web:4cd94787b23f9daba51aeb",
+      measurementId: "G-ZMZHXB5GFM"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Guardrail: Boot unauthorized visitors straight back out to the authorization gateway
+    // FIXED: Updated redirect route from library-auth.html to index.html for correct domain landing
     onAuthStateChanged(auth, (user) => {
-      if (!user) { window.location.href = 'library-auth.html'; }
+      if (!user) { window.location.href = 'index.html'; }
     });
 
     const primarySubjects = ["English", "Telugu", "Hindi", "Mathematics", "EVS", "Computers", "GK", "Drawing"];
@@ -197,8 +199,9 @@
       document.getElementById('inlinePdfStreamer').src = '';
     });
 
+    // FIXED: Updated route from library-auth.html to index.html for smooth sign-out experience
     document.getElementById('logoutActionBtn').addEventListener('click', () => {
-      signOut(auth).then(() => window.location.href = 'library-auth.html');
+      signOut(auth).then(() => window.location.href = 'index.html');
     });
   </script>
 </body>
