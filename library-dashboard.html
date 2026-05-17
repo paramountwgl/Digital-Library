@@ -71,12 +71,11 @@
     .viewer-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(15px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
     .viewer-modal-box { width: 100%; max-width: 1000px; height: 88vh; background: #0b1224; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.7); position: relative; transition: max-width 0.2s, height 0.2s; outline: none !important; }
     
-    /* 🔒 FOCUS RING LOCKDOWN: Overrides browser border lines completely */
-    .viewer-modal-box:fullscreen,
-    #fullscreenReaderCardBox:fullscreen,
-    #fullscreenReaderCardBox:-webkit-full-screen { max-width: 100vw !important; height: 100vh !important; border-radius: 0px !important; border: none !important; outline: none !important; box-shadow: none !important; background: #0b1224 !important; }
+    /* Native Hardware Desktops Fullscreen Viewport Mode Configurations */
+    .viewer-modal-box:fullscreen { max-width: 100vw !important; height: 100vh !important; border-radius: 0px !important; border: none !important; outline: none !important; box-shadow: none !important; background: #0b1224 !important; }
+    .viewer-modal-box:-webkit-full-screen { max-width: 100vw !important; height: 100vh !important; border-radius: 0px !important; border: none !important; outline: none !important; }
 
-    /* 📱 INTEGRATED SMART MOBILE VIEWER ENGINE: Full viewport fallback wrapper styling */
+    /* 📱 INTEGRATED SMART MOBILE VIEWER ENGINE: Scales frame seamlessly inside device browsers */
     .viewer-modal-box[data-mobile-fullscreen="true"] {
       max-width: 100vw !important;
       width: 100vw !important;
@@ -100,9 +99,9 @@
     .viewer-close { font-size: 1.8rem; color: #94a3b8; cursor: pointer; background: none; border: none; transition: color 0.2s; line-height: 1; outline: none !important; }
     .viewer-close:hover { color: #ef4444; }
     
-    .viewer-iframe { position: absolute; top: -5px; left: 0; height: calc(100% + 10px); width: 100%; border: none !important; outline: none !important; background: #111827; }
+    .viewer-iframe { position: absolute; top: -50px; left: 0; height: calc(100% + 50px); width: 100%; border: none !important; outline: none !important; background: #111827; }
 
-    /* 🌟 TRANSPARENT BRAND EMBLEM WATERMARK (Top-Left Position) */
+    /* 🌟 PURE TRANSPARENT WATERMARK LOGO ELEMENT Sit Node (Top-Left Position) */
     .fullscreen-branding-logo-node { 
       position: absolute; 
       top: 25px; 
@@ -117,7 +116,7 @@
       outline: none !important;
     }
 
-    /* 🌟 FLOATING GLASSMORPHIC EXIT ACTION BUTTON (Top-Right Position) */
+    /* 🌟 PREMIUM FLOATING ACTION EXIT BUTTON Node Layout (Top-Right Position) */
     .fullscreen-floating-exit-node {
       position: absolute;
       top: 25px;
@@ -125,7 +124,7 @@
       display: none;
       align-items: center;
       z-index: 300000;
-      background: rgba(239, 68, 68, 0.85) !important;
+      background: rgba(239, 68, 68, 0.85) !important; /* Made opaque on mobile to stay easily clickable */
       border: 1px solid rgba(239, 68, 68, 0.4) !important;
       padding: 10px 20px;
       border-radius: 12px;
@@ -142,6 +141,7 @@
     }
     .fullscreen-floating-exit-node:hover { background: #ef4444 !important; transform: translateY(-1px); }
 
+    /* Activate overlay component views cleanly across desktop fullscreen or custom mobile states */
     .viewer-modal-box:fullscreen .fullscreen-branding-logo-node,
     .viewer-modal-box[data-mobile-fullscreen="true"] .fullscreen-branding-logo-node { display: flex; }
     
@@ -150,7 +150,7 @@
 
     .fullscreen-brand-img { width: 90px; height: 90px; object-fit: contain; background: transparent !important; opacity: 0.45; border: none !important; outline: none !important; }
     
-    /* Footer Component Layout Structure Blocks */
+    /* Footer Component Blocks */
     .site-footer { width: 100%; padding: 30px 20px; text-align: center; background: rgba(255, 255, 255, 0.01); border-top: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 50px; }
     .footer-headline { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; }
     .social-media-container { display: flex; align-items: center; justify-content: center; gap: 22px; }
@@ -163,12 +163,19 @@
       .controls-grid { grid-template-columns: 1fr; gap: 15px; padding: 20px 15px; }
       .premium-header { padding: 15px 20px; }
       .header-title { font-size: 1.05rem; }
-      .viewer-modal-overlay { padding: 0px !important; } 
+      .viewer-modal-overlay { padding: 0px !important; } /* Removes screen padding borders on mobile */
       .viewer-modal-box { height: 100vh !important; max-height: 100vh !important; border-radius: 0px !important; border: none !important; }
       .fullscreen-brand-img { width: 65px; height: 65px; }
       
+      /* 🔒 GUARANTEED Z-INDEX LAYER POSITIONING ON TOUCH SCREENS */
       #fullscreenReaderCardBox .fullscreen-floating-exit-node,
-      #floatingExitFullscreenBtn { top: 20px !important; right: 20px !important; padding: 10px 16px !important; font-size: 0.85rem !important; position: absolute !important; }
+      #floatingExitFullscreenBtn { 
+        top: 20px !important; 
+        right: 20px !important; 
+        padding: 10px 16px !important; 
+        font-size: 0.85rem !important;
+        position: absolute !important;
+      }
     }
   </style>
 </head>
@@ -387,8 +394,8 @@
             else if (book.fileURL.includes('/d/')) { driveId = book.fileURL.split('/d/')[1].split('/')[0]; }
             
             if (driveId) {
-              // 🔒 ZERO-BUFFER IMAGING STREAM LAYOUT: Pulls the lightning-fast, protected book view pipeline into your framework
-              document.getElementById('inlinePdfStreamer').src = `https://docs.google.com/viewer?srcid=${driveId}&pid=explorer&efh=false&a=v&chrome=false&embedded=true`;
+              // 🔒 FIXED DESIGN STRATEGY: Keeps standard preview paths consistent on both desktop and mobile layouts to guarantee loading verification
+              document.getElementById('inlinePdfStreamer').src = `https://drive.google.com/file/d/${driveId}/preview`;
               document.getElementById('readerOverlayFrame').style.display = 'flex';
             } else {
               alert("Link parsing failed. Please check document parameters.");
@@ -399,16 +406,18 @@
       } catch (err) { shelf.innerHTML = '<div class="no-books-alert">Security Query Interrupted.</div>'; }
     });
 
-    // 🌟 DEVICE-AGNOSTIC FULLSCREEN ENGINE CONTROLLERS
+    // 🌟 RE-ENGINEERED DEVICE-AGNOSTIC FULLSCREEN ENGINE CONTROLLERS
     const fullscreenTarget = document.getElementById('fullscreenReaderCardBox');
     const toggleFullscreenBtn = document.getElementById('toggleFullscreenBtn');
     const floatingExitFullscreenBtn = document.getElementById('floatingExitFullscreenBtn');
     const toolbarHeader = document.getElementById('readerToolbarHeader');
 
+    // Detect mobile platform type dynamically
     const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     function triggerNormalScreenModeRelease() {
       if (isMobileDevice) {
+        // Break out of the mobile fullscreen fallback layout tracking node
         fullscreenTarget.setAttribute('data-mobile-fullscreen', 'false');
       } else {
         if (document.exitFullscreen) { document.exitFullscreen(); }
@@ -420,11 +429,13 @@
 
     toggleFullscreenBtn.addEventListener('click', () => {
       if (isMobileDevice) {
+        // 🔒 MOBILE BYPASS: iPhone/Android viewport override scaling logic matches layout boundaries flawlessly
         fullscreenTarget.setAttribute('data-mobile-fullscreen', 'true');
         toggleFullscreenBtn.textContent = "Exit Fullscreen";
         toolbarHeader.style.display = "none";
         fullscreenTarget.focus();
       } else {
+        // Standard high-end hardware screen monitor requests
         if (!document.fullscreenElement && !document.webkitFullscreenElement) {
           if (fullscreenTarget.requestFullscreen) { fullscreenTarget.requestFullscreen().then(() => { fullscreenTarget.focus(); }); }
           else if (fullscreenTarget.webkitRequestFullscreen) { fullscreenTarget.webkitRequestFullscreen(); setTimeout(() => { fullscreenTarget.focus(); }, 100); }
