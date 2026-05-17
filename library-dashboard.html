@@ -71,13 +71,11 @@
     .viewer-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(15px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
     .viewer-modal-box { width: 100%; max-width: 1000px; height: 88vh; background: #0b1224; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.7); position: relative; transition: max-width 0.3s, height 0.3s; }
     
-    /* 🌟 FULLSCREEN MODE STATE AUTOMATION CLASSES */
+    /* Fullscreen Viewport Mode Configurations */
     .viewer-modal-box:fullscreen { max-width: 100vw !important; height: 100vh !important; border-radius: 0px !important; border: none !important; }
     .viewer-modal-box:-webkit-full-screen { max-width: 100vw !important; height: 100vh !important; border-radius: 0px !important; }
 
     .viewer-toolbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; background: rgba(255, 255, 255, 0.02); border-bottom: 1px solid rgba(255, 255, 255, 0.06); gap: 15px; }
-    
-    /* Toolbar Right Control Group Container */
     .viewer-action-controls { display: flex; align-items: center; gap: 20px; }
     .fullscreen-toggle-btn { background: transparent; border: 1px solid rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 8px; color: #cbd5e1; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
     .fullscreen-toggle-btn:hover { background: rgba(255,255,255,0.05); color: #60a5fa; border-color: #3b82f6; }
@@ -86,12 +84,28 @@
     .viewer-close:hover { color: #ef4444; }
     .viewer-iframe { width: 100%; height: 100%; border: none; background: #111827; }
 
-    /* 🌟 FLOATING SCHOOL LOGO BRANDING BADGE RULE FOR FULLSCREEN */
-    .fullscreen-branding-logo-node { position: absolute; top: 15px; left: 25px; display: none; align-items: center; gap: 12px; z-index: 300; pointer-events: none; background: rgba(3, 7, 18, 0.6); padding: 6px 14px; border-radius: 100px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+    /* 🌟 PREMIUM BRAND WATERMARK NODE: Transparent, upscaled logo floating at the top-left */
+    .fullscreen-branding-logo-node { 
+      position: absolute; 
+      top: 20px; 
+      left: 25px; 
+      display: none; 
+      align-items: center; 
+      z-index: 300; 
+      pointer-events: none; 
+    }
+    /* Only render the badge layer when full-screen is actively requested */
     .viewer-modal-box:fullscreen .fullscreen-branding-logo-node { display: flex; }
     .viewer-modal-box:-webkit-full-screen .fullscreen-branding-logo-node { display: flex; }
-    .fullscreen-brand-img { width: 32px; height: 32px; object-fit: contain; border-radius: 50%; }
-    .fullscreen-brand-text { font-size: 0.78rem; font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 1px; }
+    
+    .fullscreen-brand-img { 
+      width: 75px;        /* 📐 Enlarged format size for absolute crispness */
+      height: 75px; 
+      object-fit: contain; 
+      border-radius: 50%; 
+      opacity: 0.35;      /* 🔒 Watermark transparency so it stays non-intrusive */
+      filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
+    }
 
     /* Premium Connect Social Media Footer Layout Component Block */
     .site-footer { width: 100%; padding: 30px 20px; text-align: center; background: rgba(255, 255, 255, 0.01); border-top: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 50px; }
@@ -106,7 +120,7 @@
       .controls-grid { grid-template-columns: 1fr; gap: 15px; }
       .premium-header { padding: 15px 20px; }
       .header-title { font-size: 1.05rem; }
-      .viewer-modal-box:fullscreen .fullscreen-branding-logo-node { display: none !important; } /* Strips text on mobile to maximize viewport widths */
+      .fullscreen-brand-img { width: 55px; height: 55px; top: 15px; left: 15px; } /* Scales gracefully on compact touch displays */
     }
   </style>
 </head>
@@ -118,6 +132,7 @@
     <div class="header-left-brand">
       <img src="logo.png" alt="Paramount Institutional Emblem" class="header-logo" onerror="this.style.display='none'">
       <div class="header-text-container">
+        <img src="logo.png" style="display:none;" onerror="/* pre-load cache matrix hooks */">
         <h1 class="header-title">Paramount English Medium High School</h1>
         <div class="header-subtitle">Digital Library</div>
       </div>
@@ -182,8 +197,7 @@
     <div class="viewer-modal-box" id="fullscreenReaderCardBox">
       
       <div class="fullscreen-branding-logo-node">
-        <img src="logo.png" alt="Paramount Logo" class="fullscreen-brand-img">
-        <span class="fullscreen-brand-text">Paramount High School</span>
+        <img src="logo.png" alt="Paramount Watermark" class="fullscreen-brand-img">
       </div>
 
       <div class="viewer-toolbar" id="readerToolbarHeader">
@@ -288,7 +302,7 @@
       profileMenuDropsheet.classList.remove('active');
     });
 
-    // 🔒 Security System Shortcut Keyboard Blockers
+    // 🔒 HARD LOCKDOWN: Prevent common browser extraction shortcuts completely
     window.addEventListener('keydown', function(e) {
       if (e.keyCode == 123 || 
          (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 67 || e.keyCode == 74)) || 
@@ -378,14 +392,12 @@
 
     toggleFullscreenBtn.addEventListener('click', () => {
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        // Enter Fullscreen Mode safely across cross-browser wrappers
         if (fullscreenTarget.requestFullscreen) { fullscreenTarget.requestFullscreen(); }
         else if (fullscreenTarget.webkitRequestFullscreen) { fullscreenTarget.webkitRequestFullscreen(); }
         
         toggleFullscreenBtn.textContent = "Exit Fullscreen";
-        toolbarHeader.style.visibility = "hidden"; // Hides top bar text to hide any remaining black bars
+        toolbarHeader.style.visibility = "hidden"; 
       } else {
-        // Exit Fullscreen Mode safely
         if (document.exitFullscreen) { document.exitFullscreen(); }
         else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
         
@@ -394,7 +406,6 @@
       }
     });
 
-    // Reset button indicators automatically if a user hits the physical 'Esc' hardware key
     function monitorFullscreenExitChange() {
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         toggleFullscreenBtn.textContent = "Go Fullscreen";
@@ -405,7 +416,6 @@
     document.addEventListener('webkitfullscreenchange', monitorFullscreenExitChange);
 
     document.getElementById('closeReaderBtn').addEventListener('click', () => {
-      // Safety release fullscreen locks if active before modal close events
       if (document.fullscreenElement || document.webkitFullscreenElement) {
         if (document.exitFullscreen) { document.exitFullscreen(); }
         else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
