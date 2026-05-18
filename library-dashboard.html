@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Digital-Library📚 | Paramount School</title>
+  <title>Digital Bookshelf Portal | Paramount School</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo.png">
   <style>
@@ -29,22 +29,37 @@
     .default-avatar-placeholder { font-size: 1.2rem; font-weight: 700; color: white; }
 
     /* Custom Glassmorphic Profile Dropsheet Menu Overlay */
-    .profile-dropdown-card { position: absolute; top: 60px; right: 0; width: 280px; background: #0b1329; border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 18px; padding: 22px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); display: none; flex-direction: column; gap: 15px; z-index: 100; transform-origin: top right; animation: smoothDrop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .profile-dropdown-card { position: absolute; top: 60px; right: 0; width: 290px; background: #0b1329; border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 18px; padding: 22px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); display: none; flex-direction: column; gap: 12px; z-index: 100; transform-origin: top right; animation: smoothDrop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     @keyframes smoothDrop { from { opacity: 0; transform: scale(0.92) translateY(-10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
     .profile-dropdown-card.active { display: flex; }
     .dropdown-user-name { font-size: 0.95rem; font-weight: 600; color: white; text-align: left; }
     .dropdown-user-email { font-size: 0.8rem; color: #94a3b8; text-align: left; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
-    .dropdown-divider { border-bottom: 1px solid rgba(255, 255, 255, 0.06); width: 100%; margin: 5px 0; }
+    .dropdown-divider { border-bottom: 1px solid rgba(255, 255, 255, 0.06); width: 100%; margin: 3px 0; }
     .dropdown-plan-badge-container { display: flex; justify-content: space-between; align-items: center; background: rgba(59, 130, 246, 0.06); border: 1px solid rgba(59, 130, 246, 0.15); padding: 10px 14px; border-radius: 10px; }
     .badge-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; font-weight: 500; }
     .badge-tier-value { font-size: 0.8rem; color: #60a5fa; font-weight: 700; text-transform: uppercase; }
 
+    /* Premium Accent Subscriptions Upgrade Core Action Button */
+    .dropdown-upgrade-action-trigger { width: 100%; padding: 10px; border-radius: 10px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none; color: white; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+    .dropdown-upgrade-action-trigger:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5); filter: brightness(1.1); }
+
     .logout-btn { width: 100%; padding: 11px; border-radius: 10px; background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.15); color: #fca5a5; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; text-align: center; }
     .logout-btn:hover { background: rgba(239, 68, 68, 0.15); border-color: #ef4444; color: white; }
 
+    /* High-End Academic Strategic Announcement Banner */
+    .announcement-banner-wrapper { max-width: 1200px; margin: 30px auto 0 auto; padding: 0 20px; width: 100%; }
+    .premium-announcement-card { background: linear-gradient(135deg, rgba(30, 58, 138, 0.3) 0%, rgba(88, 28, 135, 0.2) 100%); border: 1px solid rgba(96, 165, 250, 0.2); border-radius: 20px; padding: 25px 30px; display: flex; align-items: center; gap: 25px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
+    .premium-announcement-card::before { content: ''; position: absolute; top: -50%; left: -30%; width: 60%; height: 200%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent); transform: rotate(25deg); animation: shimmerSweep 6s infinite linear; }
+    @keyframes shimmerSweep { from { transform: translate(-100%, -50%) rotate(25deg); } to { transform: translate(200%, -50%) rotate(25deg); } }
+    .announcement-icon-node { font-size: 2.2rem; filter: drop-shadow(0 0 10px rgba(96,165,250,0.5)); animation: bounceWidget 3s infinite ease-in-out; }
+    @keyframes bounceWidget { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+    .announcement-content-text { display: flex; flex-direction: column; gap: 4px; }
+    .announcement-headline { font-size: 1.1rem; font-weight: 700; color: #ffffff; letter-spacing: 0.3px; }
+    .announcement-body-message { font-size: 0.88rem; color: #94a3b8; line-height: 1.5; }
+
     /* Layout Main Framework Dashboard Components */
-    .dashboard-layout { max-width: 1200px; margin: 0 auto; padding: 40px 20px; width: 100%; flex-grow: 1; }
+    .dashboard-layout { max-width: 1200px; margin: 0 auto; padding: 30px 20px 40px 20px; width: 100%; flex-grow: 1; }
     .glass-card { background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.06); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 24px; padding: 35px 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
     
     .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 40px; }
@@ -56,40 +71,30 @@
 
     /* Shelf Engine UI Grid Cards Render Elements */
     .books-container-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 30px; }
-    .book-card { padding: 25px; text-align: center; border-radius: 20px; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.03); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; height: 310px; position: relative; }
+    .book-card { padding: 25px; text-align: center; border-radius: 20px; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.03); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; height: 310px; position: relative; overflow: hidden; }
     .book-card:hover { transform: translateY(-6px); background: rgba(255,255,255,0.04); border-color: rgba(59, 130, 246, 0.35); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
     
+    /* 🔒 Premium Category Badge Styling Matrix Configuration rules */
+    .premium-lock-indicator-badge { position: absolute; top: 15px; right: 15px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 6px; padding: 3px 8px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; box-shadow: 0 4px 10px rgba(217,119,6,0.3); }
+
     .book-cover-placeholder { width: 95px; height: 130px; background: linear-gradient(135deg, #1e40af, #6366f1); border-radius: 10px; margin: 0 auto 18px auto; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; box-shadow: 0 12px 24px rgba(0,0,0,0.4); transition: transform 0.3s; }
+    .book-card.premium-locked-tier-block .book-cover-placeholder { background: linear-gradient(135deg, #374151, #1f2937) !important; filter: grayscale(0.5); }
     .book-card:hover .book-cover-placeholder { transform: scale(1.05) rotate(-2deg); }
     
     .book-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; color: #ffffff; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 44px; line-height: 1.4; }
     .book-card:hover .book-title { color: #60a5fa; }
+    .book-card.premium-locked-tier-block:hover .book-title { color: #fbbf24; }
     .book-info-tag { font-size: 0.82rem; color: #94a3b8; margin-top: auto; }
     .no-books-alert { text-align: center; color: #94a3b8; padding: 50px; grid-column: 1 / -1; font-size: 1.1rem; font-weight: 500; letter-spacing: 0.5px; }
 
-    /* Modal Core Reader Overlays */
+    /* Modal Framework Reader Overlays */
     .viewer-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(15px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
     .viewer-modal-box { width: 100%; max-width: 1000px; height: 88vh; background: #0b1224; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.7); position: relative; transition: max-width 0.2s, height 0.2s; outline: none !important; }
     
-    /* Native Hardware Desktops Fullscreen Viewport Mode Configurations */
     .viewer-modal-box:fullscreen { max-width: 100vw !important; height: 100vh !important; border-radius: 0px !important; border: none !important; outline: none !important; box-shadow: none !important; background: #0b1224 !important; }
     .viewer-modal-box:-webkit-full-screen { max-width: 100vw !important; height: 100vh !important; border-radius: 0px !important; border: none !important; outline: none !important; }
 
-    /* 📱 INTEGRATED SMART MOBILE VIEWER ENGINE: Scales frame seamlessly inside device browsers */
-    .viewer-modal-box[data-mobile-fullscreen="true"] {
-      max-width: 100vw !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      max-height: 100vh !important;
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      border-radius: 0px !important;
-      border: none !important;
-      z-index: 999999 !important;
-    }
+    .viewer-modal-box[data-mobile-fullscreen="true"] { max-width: 100vw !important; width: 100vw !important; height: 100vh !important; max-height: 100vh !important; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; border-radius: 0px !important; border: none !important; z-index: 999999 !important; }
 
     .viewer-toolbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; background: rgba(255, 255, 255, 0.02); border-bottom: 1px solid rgba(255, 255, 255, 0.06); gap: 15px; }
     .viewer-action-controls { display: flex; align-items: center; gap: 20px; }
@@ -101,81 +106,43 @@
     
     .viewer-iframe { position: absolute; top: -50px; left: 0; height: calc(100% + 50px); width: 100%; border: none !important; outline: none !important; background: #111827; }
 
-    /* 🌟 PURE TRANSPARENT WATERMARK LOGO ELEMENT Sit Node (Top-Left Position) */
-    .fullscreen-branding-logo-node { 
-      position: absolute; 
-      top: 25px; 
-      left: 25px; 
-      display: none; 
-      align-items: center; 
-      z-index: 300000; 
-      pointer-events: none; 
-      background: transparent !important; 
-      border: none !important;
-      box-shadow: none !important;
-      outline: none !important;
-    }
-
-    /* 🌟 PREMIUM FLOATING ACTION EXIT BUTTON Node Layout (Top-Right Position) */
-    .fullscreen-floating-exit-node {
-      position: absolute;
-      top: 25px;
-      right: 25px;
-      display: none;
-      align-items: center;
-      z-index: 300000;
-      background: rgba(239, 68, 68, 0.85) !important; /* Made opaque on mobile to stay easily clickable */
-      border: 1px solid rgba(239, 68, 68, 0.4) !important;
-      padding: 10px 20px;
-      border-radius: 12px;
-      color: #ffffff;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-      transition: all 0.2s ease;
-      outline: none !important;
-    }
+    /* Floating Transparent Emblem Watermark Layout Configuration */
+    .fullscreen-branding-logo-node { position: absolute; top: 25px; left: 25px; display: none; align-items: center; z-index: 300000; pointer-events: none; background: transparent !important; border: none !important; box-shadow: none !important; outline: none !important; }
+    .fullscreen-floating-exit-node { position: absolute; top: 25px; right: 25px; display: none; align-items: center; z-index: 300000; background: rgba(239, 68, 68, 0.85) !important; border: 1px solid rgba(239, 68, 68, 0.4) !important; padding: 10px 20px; border-radius: 12px; color: #ffffff; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; cursor: pointer; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 6px 20px rgba(0,0,0,0.5); transition: all 0.2s ease; outline: none !important; }
     .fullscreen-floating-exit-node:hover { background: #ef4444 !important; transform: translateY(-1px); }
 
-    /* Activate overlay component views cleanly across desktop fullscreen or custom mobile states */
     .viewer-modal-box:fullscreen .fullscreen-branding-logo-node,
     .viewer-modal-box[data-mobile-fullscreen="true"] .fullscreen-branding-logo-node { display: flex; }
-    
     .viewer-modal-box:fullscreen .fullscreen-floating-exit-node,
     .viewer-modal-box[data-mobile-fullscreen="true"] .fullscreen-floating-exit-node { display: flex; }
-
     .fullscreen-brand-img { width: 90px; height: 90px; object-fit: contain; background: transparent !important; opacity: 0.45; border: none !important; outline: none !important; }
-    
-    /* Footer Component Blocks */
-    .site-footer { width: 100%; padding: 30px 20px; text-align: center; background: rgba(255, 255, 255, 0.01); border-top: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 50px; }
-    .footer-headline { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; }
-    .social-media-container { display: flex; align-items: center; justify-content: center; gap: 22px; }
-    .social-icon-link { width: 44px; height: 44px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; color: #cbd5e1; text-decoration: none; }
-    .social-icon-link:hover { background: rgba(59, 130, 246, 0.1); border-color: #3b82f6; color: #60a5fa; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2); }
-    .social-icon-svg { width: 20px; height: 20px; fill: currentColor; }
-    .copyright-notice { font-size: 0.8rem; color: #4b5563; margin-top: 5px; letter-spacing: 0.5px; }
 
+    /* ⚡ CUSTOM PREMIUM PRICING SUBSCRIPTION MATRIX OVERLAY BOX */
+    .pricing-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 500; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .pricing-modal-box { width: 100%; max-width: 460px; background: #0b1329; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 35px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6); animation: smoothZoom 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes smoothZoom { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .pricing-tier-title { font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+    .pricing-cost-tag { font-size: 2.5rem; font-weight: 800; color: white; margin: 15px 0; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .pricing-cost-tag span { font-size: 1rem; color: #94a3b8; font-weight: 500; }
+    .pricing-features-list { text-align: left; margin: 25px 0; display: flex; flex-direction: column; gap: 12px; }
+    .feature-item { font-size: 0.88rem; color: #cbd5e1; display: flex; align-items: center; gap: 10px; }
+    .feature-check-icon { color: #10b981; font-weight: bold; }
+    .payment-notice-footer-badge { background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.15); padding: 12px; border-radius: 12px; color: #f59e0b; font-size: 0.8rem; line-height: 1.4; font-weight: 500; text-align: left; margin-bottom: 20px; }
+    .close-pricing-btn { width: 100%; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8; font-weight: 600; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+    .close-pricing-btn:hover { background: rgba(255,255,255,0.08); color: white; }
+    
+    /* Footer Style Components */
+    .site-footer { width: 100%; padding: 30px 20px; text-align: center; background: rgba(255, 255, 255, 0.01); border-top: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 50px; }
     @media (max-width: 768px) {
       .controls-grid { grid-template-columns: 1fr; gap: 15px; padding: 20px 15px; }
       .premium-header { padding: 15px 20px; }
       .header-title { font-size: 1.05rem; }
-      .viewer-modal-overlay { padding: 0px !important; } /* Removes screen padding borders on mobile */
+      .viewer-modal-overlay { padding: 0px !important; } 
       .viewer-modal-box { height: 100vh !important; max-height: 100vh !important; border-radius: 0px !important; border: none !important; }
       .fullscreen-brand-img { width: 65px; height: 65px; }
-      
-      /* 🔒 GUARANTEED Z-INDEX LAYER POSITIONING ON TOUCH SCREENS */
-      #fullscreenReaderCardBox .fullscreen-floating-exit-node,
-      #floatingExitFullscreenBtn { 
-        top: 20px !important; 
-        right: 20px !important; 
-        padding: 10px 16px !important; 
-        font-size: 0.85rem !important;
-        position: absolute !important;
-      }
+      #fullscreenReaderCardBox .fullscreen-floating-exit-node, #floatingExitFullscreenBtn { top: 20px !important; right: 20px !important; padding: 10px 16px !important; font-size: 0.85rem !important; position: absolute !important; }
+      .viewer-modal-box:fullscreen #floatingExitFullscreenBtn, .viewer-modal-box[data-mobile-fullscreen="true"] #floatingExitFullscreenBtn { display: flex !important; }
+      .premium-announcement-card { flex-direction: column; text-align: center; padding: 20px; gap: 12px; }
     }
   </style>
 </head>
@@ -208,11 +175,22 @@
           <span class="badge-label">Active Plan</span>
           <span class="badge-tier-value" id="accountSubscriptionTier">Free tier</span>
         </div>
+        <button type="button" class="dropdown-upgrade-action-trigger" id="dropdownUpgradeBtn" style="display: none;">⚡ Upgrade Plan</button>
         <div class="dropdown-divider"></div>
         <button class="logout-btn" id="logoutActionBtn">Sign Out Securely</button>
       </div>
     </div>
   </header>
+
+  <div class="announcement-banner-wrapper">
+    <div class="premium-announcement-card">
+      <div class="announcement-icon-node">🚀</div>
+      <div class="announcement-content-text">
+        <h2 class="announcement-headline">Paramount Library Upgraded Tier Tier Matrix Coming Soon!</h2>
+        <p class="announcement-body-message">We are upgrading to an executive knowledge infrastructure! Soon, our brand-new Premium Subscription tier will unlock immersive content layers, complex competitive modules, and advanced tracking books to explore fields far beyond standard common curriculum frameworks.</p>
+      </div>
+    </div>
+  </div>
 
   <div class="dashboard-layout">
     <main class="controls-grid glass-card">
@@ -267,30 +245,40 @@
       </div>
       
       <div style="width: 100%; flex-grow: 1; overflow: hidden; position: relative; background: #111827;">
-        <iframe 
-          class="viewer-iframe" 
-          id="inlinePdfStreamer" 
-          src="" 
-          allow="autoplay">
-        </iframe>
+        <iframe class="viewer-iframe" id="inlinePdfStreamer" src="" allow="autoplay"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="pricing-modal-overlay" id="subscriptionPricingModalFrame">
+    <div class="pricing-modal-box">
+      <h2 class="pricing-tier-title">👑 PARAMOUNT GOLD ACCESS</h2>
+      <p style="color: #94a3b8; font-size: 0.85rem;">Complete Institutional Reference Library Upgrade</p>
+      
+      <div class="pricing-cost-tag">₹50 <span>/ year</span></div>
+      
+      <div class="payment-notice-footer-badge">
+        <strong>📍 Mode of Payment: Offline Processing</strong><br>
+        To activate this plan, please pay ₹50 directly to the school administrative desk counter. Once paid, the admin team will instantly authorize your profile registry node!
       </div>
       
+      <div class="pricing-features-list">
+        <div class="feature-item"><span class="feature-check-icon">✓</span> Unlocks 100% of standard Free Grade Textbooks</div>
+        <div class="feature-item"><span class="feature-check-icon">✓</span> Unlocks premium advanced curriculum catalogs</div>
+        <div class="feature-item"><span class="feature-check-icon">✓</span> Instant zero-buffer high-speed web optimization loading</div>
+        <div class="feature-item"><span class="feature-check-icon">✓</span> 1-Year comprehensive profile protection access parameters</div>
+      </div>
+      
+      <button type="button" class="close-pricing-btn" id="closePricingModalBtn">Return to Bookshelf</button>
     </div>
   </div>
 
   <footer class="site-footer">
-    <div class="footer-headline">Connect With Us</div>
     <div class="social-media-container">
       <a href="https://www.facebook.com/paramountschoolwgl" target="_blank" class="social-icon-link"><svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg></a>
       <a href="https://www.instagram.com/paramountschoolwgl" target="_blank" class="social-icon-link"><svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
       <a href="https://www.youtube.com/@paramountschoolwgl" target="_blank" class="social-icon-link"><svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
       <a href="mailto:academicsupport@paramountschooledu.in" class="social-icon-link"><svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
-      <a href="tel:+919652188807" class="social-icon-link" title="Call Institution">
-        <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1A11.36 11.36 0 008.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>
-      </a>
-      <a href="https://wa.me/919652188807" target="_blank" class="social-icon-link" title="Chat on WhatsApp">
-        <svg class="social-icon-svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.546c1.614.957 3.197 1.498 4.819 1.499 5.429 0 9.847-4.415 9.85-9.842.002-2.63-1.02-5.101-2.881-6.963C16.564 2.285 14.1 1.26 11.469 1.26c-5.434 0-9.854 4.417-9.857 9.846-.001 1.706.449 3.371 1.305 4.843l-.988 3.606 3.718-.975zm13.14-5.31c-.303-.152-1.794-.885-2.072-.986-.279-.101-.482-.152-.684.152-.202.304-.783.986-.96 1.189-.177.202-.355.228-.658.076-.303-.152-1.28-.472-2.439-1.506-.902-.805-1.512-1.8-1.689-2.103-.177-.304-.019-.468.132-.619.136-.136.304-.355.456-.532.152-.177.202-.304.304-.506.101-.202.051-.38-.025-.532-.076-.152-.684-1.647-.937-2.255-.247-.593-.499-.513-.684-.522-.177-.009-.38-.01-.583-.01-.203 0-.532.076-.811.38-.279.304-1.064 1.039-1.064 2.533 0 1.495 1.089 2.939 1.241 3.142.152.203 2.143 3.273 5.192 4.588.725.313 1.291.5 1.734.641.728.231 1.391.199 1.915.121.584-.087 1.794-.734 2.048-1.443.253-.709.253-1.317.177-1.443-.076-.126-.279-.203-.583-.355z"/></svg>
-      </a>
     </div>
     <div class="copyright-notice">2026 &copy; <strong>PARAMOUNT ENGLISH MEDIUM HIGH SCHOOL</strong> | All Rights Reserved.</div>
   </footer>
@@ -298,7 +286,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAzUOh21Ec31kKmf42Tcw-xs4fVZyPh2fM",
@@ -315,18 +303,57 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    let GLOBAL_USER_TIER = "free"; // Default architecture fallback
+
     const txtAvatarPlaceholder = document.getElementById('txtAvatarPlaceholder');
     const userProfileImageDisplay = document.getElementById('userProfileImageDisplay');
     const dropdownUserNameText = document.getElementById('dropdownUserNameText');
     const dropdownUserEmailText = document.getElementById('dropdownUserEmailText');
     const profileMenuDropsheet = document.getElementById('profileMenuDropsheet');
+    const accountSubscriptionTier = document.getElementById('accountSubscriptionTier');
+    const dropdownUpgradeBtn = document.getElementById('dropdownUpgradeBtn');
 
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (!user) { window.location.href = 'index.html'; } 
       else {
         dropdownUserEmailText.textContent = user.email;
         dropdownUserNameText.textContent = user.displayName || "Paramount Student";
         
+        // 🔒 RBAC INTEGRATION LAYER: Query user account data sheet
+        const userDocRef = doc(db, "authorized_students", user.email.toLowerCase().trim());
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.exists() ? userDocSnap.data() : {};
+          const currentTimestamp = Date.now();
+          const expirationTime = userData.subscription_expires ? userData.subscription_expires : 0;
+
+          // Verify if expiration date is strictly in the future (Time-anchored to 2026/2027)
+          if (userData.tier === "premium" && expirationTime > currentTimestamp) {
+            GLOBAL_USER_TIER = "premium";
+            accountSubscriptionTier.textContent = "👑 Premium Gold";
+            accountSubscriptionTier.style.color = "#fbbf24";
+            dropdownUpgradeBtn.style.display = "none";
+          } else {
+            // Either expired or free default tier state
+            GLOBAL_USER_TIER = "free";
+            accountSubscriptionTier.textContent = "Free Tier Standard";
+            accountSubscriptionTier.style.color = "#94a3b8";
+            dropdownUpgradeBtn.style.display = "block";
+          }
+        } else {
+          // If document does not exist, provision a secure default user matrix index cleanly
+          await setDoc(userDocRef, {
+            email: user.email.toLowerCase().trim(),
+            tier: "free",
+            subscription_expires: 0,
+            updated_at: Date.now()
+          });
+          GLOBAL_USER_TIER = "free";
+          accountSubscriptionTier.textContent = "Free Tier Standard";
+          dropdownUpgradeBtn.style.display = "block";
+        }
+
         if (user.photoURL) {
           txtAvatarPlaceholder.style.display = "none";
           userProfileImageDisplay.src = user.photoURL;
@@ -339,11 +366,20 @@
       }
     });
 
-    document.getElementById('userProfileDropdownAnchor').addEventListener('click', (e) => {
+    // ⚡ INTERACTIVE SUBSCRIPTION PRICING MODAL TRIGGERS
+    const pricingModal = document.getElementById('subscriptionPricingModalFrame');
+    dropdownUpgradeBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      profileMenuDropsheet.classList.toggle('active');
+      profileMenuDropsheet.classList.remove('active');
+      pricingModal.style.display = "flex";
+    });
+    document.getElementById('closePricingModalBtn').addEventListener('click', () => {
+      pricingModal.style.display = "none";
     });
 
+    document.getElementById('userProfileDropdownAnchor').addEventListener('click', (e) => {
+      e.stopPropagation(); profileMenuDropsheet.classList.toggle('active');
+    });
     window.addEventListener('click', () => { profileMenuDropsheet.classList.remove('active'); });
 
     window.addEventListener('keydown', function(e) {
@@ -390,18 +426,38 @@
         querySnapshot.forEach((doc) => {
           const book = doc.data();
           const card = document.createElement('div');
-          card.className = 'book-card glass-card';
-          card.innerHTML = `<div class="book-cover-placeholder">📘</div><div class="book-title">${book.title}</div><div class="book-info-tag">Author: ${book.author || 'Academic Panel'}</div>`;
+          
+          // Fallback parsing rule check for old structural records inside firestore
+          const isPremiumBook = book.tier === "premium"; 
+          const isLocked = isPremiumBook && GLOBAL_USER_TIER !== "premium";
+
+          card.className = `book-card glass-card ${isLocked ? 'premium-locked-tier-block' : ''}`;
+          
+          let cardMarkup = `<div class="book-cover-placeholder">📘</div>`;
+          if (isPremiumBook) {
+            cardMarkup = `<div class="premium-lock-indicator-badge">👑 Premium</div><div class="book-cover-placeholder" style="background: linear-gradient(135deg, #d97706, #f59e0b);">👑</div>`;
+          }
+          
+          card.innerHTML = `
+            ${cardMarkup}
+            <div class="book-title">${book.title}</div>
+            <div class="book-info-tag">Author: ${book.author || 'Academic Panel'}</div>
+          `;
           
           card.addEventListener('click', () => {
+            if (isLocked) {
+              pricingModal.style.display = "flex"; // Automatically throw up the payment matrix prompt safely
+              return;
+            }
+
             document.getElementById('modalBookTitleDisplay').textContent = book.title;
             let driveId = "";
             if (book.fileURL.includes('id=')) { driveId = book.fileURL.split('id=')[1].split('&')[0]; } 
             else if (book.fileURL.includes('/d/')) { driveId = book.fileURL.split('/d/')[1].split('/')[0]; }
             
             if (driveId) {
-              // 🔒 FIXED DESIGN STRATEGY: Keeps standard preview paths consistent on both desktop and mobile layouts to guarantee loading verification
-              document.getElementById('inlinePdfStreamer').src = `https://drive.google.com/file/d/${driveId}/preview`;
+              // 🔒 ZERO-BUFFER IMAGING STREAM LAYOUT
+              document.getElementById('inlinePdfStreamer').src = `https://docs.google.com/viewer?srcid=${driveId}&pid=explorer&efh=false&a=v&chrome=false&embedded=true`;
               document.getElementById('readerOverlayFrame').style.display = 'flex';
             } else {
               alert("Link parsing failed. Please check document parameters.");
@@ -412,20 +468,15 @@
       } catch (err) { shelf.innerHTML = '<div class="no-books-alert">Security Query Interrupted.</div>'; }
     });
 
-    // 🌟 RE-ENGINEERED DEVICE-AGNOSTIC FULLSCREEN ENGINE CONTROLLERS
+    // 🌟 DEVICE-AGNOSTIC FULLSCREEN ENGINE CONTROLLERS
     const fullscreenTarget = document.getElementById('fullscreenReaderCardBox');
     const toggleFullscreenBtn = document.getElementById('toggleFullscreenBtn');
     const floatingExitFullscreenBtn = document.getElementById('floatingExitFullscreenBtn');
     const toolbarHeader = document.getElementById('readerToolbarHeader');
 
-    // Detect mobile platform type dynamically
-    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
     function triggerNormalScreenModeRelease() {
-      if (isMobileDevice) {
-        // Break out of the mobile fullscreen fallback layout tracking node
-        fullscreenTarget.setAttribute('data-mobile-fullscreen', 'false');
-      } else {
+      if (isMobileDevice) { fullscreenTarget.setAttribute('data-mobile-fullscreen', 'false'); } 
+      else {
         if (document.exitFullscreen) { document.exitFullscreen(); }
         else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
       }
@@ -435,13 +486,11 @@
 
     toggleFullscreenBtn.addEventListener('click', () => {
       if (isMobileDevice) {
-        // 🔒 MOBILE BYPASS: iPhone/Android viewport override scaling logic matches layout boundaries flawlessly
         fullscreenTarget.setAttribute('data-mobile-fullscreen', 'true');
         toggleFullscreenBtn.textContent = "Exit Fullscreen";
         toolbarHeader.style.display = "none";
         fullscreenTarget.focus();
       } else {
-        // Standard high-end hardware screen monitor requests
         if (!document.fullscreenElement && !document.webkitFullscreenElement) {
           if (fullscreenTarget.requestFullscreen) { fullscreenTarget.requestFullscreen().then(() => { fullscreenTarget.focus(); }); }
           else if (fullscreenTarget.webkitRequestFullscreen) { fullscreenTarget.webkitRequestFullscreen(); setTimeout(() => { fullscreenTarget.focus(); }, 100); }
@@ -453,9 +502,7 @@
       }
     });
 
-    floatingExitFullscreenBtn.addEventListener('click', () => {
-      triggerNormalScreenModeRelease();
-    });
+    floatingExitFullscreenBtn.addEventListener('click', () => { triggerNormalScreenModeRelease(); });
 
     function monitorFullscreenExitChange() {
       if (!document.fullscreenElement && !document.webkitFullscreenElement && !isMobileDevice) {
