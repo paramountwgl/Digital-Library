@@ -2,18 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Paramount Administrative Command Engine</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo.png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background-color: #030712; color: white; padding: 40px 20px; min-height: 100vh; }
-    .admin-container { max-width: 1100px; margin: 0 auto; width: 100%; }
+    body { background-color: #030712; color: white; padding: 40px 20px; min-height: 100vh; position: relative; }
+    .admin-container { max-width: 1100px; margin: 0 auto; width: 100%; display: none; } /* Hidden by default until secure auth token clears */
     
     /* Executive Structural Headers */
     .admin-header-card { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 25px; margin-bottom: 35px; }
     .panel-headline { font-size: 1.6rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header-right-controls { display: flex; align-items: center; gap: 20px; }
     .stats-badge-node { background: rgba(59, 130, 246, 0.06); border: 1px solid rgba(59, 130, 246, 0.15); padding: 8px 16px; border-radius: 10px; font-size: 0.85rem; color: #60a5fa; font-weight: 600; }
+    
+    .admin-logout-btn { padding: 8px 16px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 10px; color: #fca5a5; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .admin-logout-btn:hover { background: #ef4444; color: white; border-color: #ef4444; }
 
     /* Search & Filter Controls */
     .search-filter-wrapper { display: flex; gap: 15px; margin-bottom: 25px; }
@@ -38,17 +43,68 @@
     .action-btn.upgrade:hover { background: #10b981; color: white; }
     .action-btn.downgrade { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); color: #fca5a5; }
     .action-btn.downgrade:hover { background: #ef4444; color: white; }
+
+    /* 🔒 HIGH SECURITY AUTHENTICATION GATEWAY MODAL CONTAINER */
+    .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #030712; z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .auth-modal-box { width: 100%; max-width: 420px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 24px; padding: 40px 35px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+    .auth-logo { width: 65px; height: 65px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.4)); }
+    .auth-title { font-size: 1.35rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+    .auth-subtitle { font-size: 0.82rem; color: #94a3b8; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
+    
+    .form-input-group { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+    .form-field-input { width: 100%; padding: 13px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-size: 0.9rem; outline: none; transition: all 0.2s; }
+    .form-field-input:focus { border-color: #3b82f6; background: rgba(255,255,255,0.06); }
+    
+    .submit-auth-btn { width: 100%; padding: 14px; border-radius: 12px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none; color: white; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s; }
+    .submit-auth-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    
+    .google-sign-in-btn { width: 100%; padding: 12px; border-radius: 12px; background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; font-weight: 600; cursor: pointer; font-size: 0.88rem; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s; }
+    .google-sign-in-btn:hover { background: rgba(255,255,255,0.04); color: white; border-color: rgba(255,255,255,0.25); }
+    .google-svg-icon { width: 18px; height: 18px; }
+
+    .forgot-password-trigger { display: inline-block; margin-top: 15px; font-size: 0.8rem; color: #60a5fa; cursor: pointer; text-decoration: none; transition: color 0.2s; background: none; border: none; }
+    .forgot-password-trigger:hover { color: #93c5fd; text-decoration: underline; }
+    
+    .auth-error-box { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); color: #f87171; padding: 10px 14px; border-radius: 10px; font-size: 0.8rem; margin-bottom: 20px; display: none; text-align: left; line-height: 1.4; }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-  <div class="admin-container">
+  <div class="auth-modal-overlay" id="adminAuthOverlayNode">
+    <div class="auth-modal-box">
+      <img src="logo.png" alt="Paramount Crest" class="auth-logo">
+      <h2 class="auth-title">Admin Core Secure</h2>
+      <p class="auth-subtitle">Library Clearance Console</p>
+      
+      <div class="auth-error-box" id="authErrorNotificationDisplay"></div>
+
+      <form id="adminCredentialsForm">
+        <div class="form-input-group">
+          <input type="email" id="authEmailInput" class="form-field-input" placeholder="Admin Email Identifier" required autocomplete="username">
+          <input type="password" id="authPasswordInput" class="form-field-input" placeholder="Security Access Password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="submit-auth-btn" id="submitCredentialsBtn">Authorize Session</button>
+      </form>
+
+      <button type="button" class="google-sign-in-btn" id="googleAuthActionBtn">
+        <svg class="google-svg-icon" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.273 0 3.182 2.727 1.145 6.727z"/><path fill="#4285F4" d="M23.864 12.273c0-.818-.073-1.636-.218-2.427H12v4.609h6.664a5.704 5.704 0 0 1-2.473 3.745v3.1h3.991c2.336-2.145 3.682-5.309 3.682-9.027z"/><path fill="#FBBC05" d="M5.266 14.235A7.09 7.09 0 0 1 4.909 12c0-.791.136-1.555.357-2.235L1.145 5.636A11.905 11.905 0 0 0 0 12c0 2.345.49 4.564 1.373 6.582z"/><path fill="#34A853" d="M12 24c3.245 0 5.973-1.073 7.964-2.918l-3.991-3.1a7.114 7.114 0 0 1-3.973 1.109c-3.682 0-6.818-2.491-7.927-5.855L1.373 17.418A11.932 11.932 0 0 0 12 24z"/></svg>
+        Continue with Google
+      </button>
+
+      <button type="button" class="forgot-password-trigger" id="passwordResetActionBtn">Trouble Accessing? Reset Password</button>
+    </div>
+  </div>
+
+  <div class="admin-container" id="securedAdminDashboardContainer">
     <header class="admin-header-card">
       <div>
         <h1 class="panel-headline">Paramount Registry Manager</h1>
         <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 2px;">Offline Subscription Authorization & Database Console</p>
       </div>
-      <div class="stats-badge-node" id="totalStudentsCountLabel">Active Directory: 0 Students</div>
+      <div class="header-right-controls">
+        <div class="stats-badge-node" id="totalStudentsCountLabel">Active Directory: 0 Students</div>
+        <button type="button" class="admin-logout-btn" id="adminSessionSignoutBtn">Exit Session</button>
+      </div>
     </header>
 
     <div class="search-filter-wrapper">
@@ -77,6 +133,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
     import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -91,13 +148,123 @@
     };
 
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const db = getFirestore(app);
+    const googleProvider = new GoogleAuthProvider();
 
+    // 🔒 DEFENSIVE LAYER STRATEGY: Hardcoded Immutable Administrator Registry Matrix Array
+    const PARAMOUNT_ADMIN_WHITELIST = new Set([
+      "admin@paramountschooledu.in",
+      "tauseefali.shaik@gmail.com",
+      "admin3@paramount.in",
+      "admin4@paramount.in"
+    ]);
+
+    const authOverlay = document.getElementById('adminAuthOverlayNode');
+    const dashboardContainer = document.getElementById('securedAdminDashboardContainer');
+    const errorBox = document.getElementById('authErrorNotificationDisplay');
     const tableBody = document.getElementById('studentRecordsTableBody');
     const totalCountLabel = document.getElementById('totalStudentsCountLabel');
     const searchField = document.getElementById('adminSearchField');
 
-    let cachedStudentsArray = []; // Holds memory cache state for instant search filtering
+    let cachedStudentsArray = [];
+
+    // Helper reading error notification handlers cleanly
+    function throwAuthNotice(msg) {
+      errorBox.textContent = msg;
+      errorBox.style.display = "block";
+    }
+    function resetAuthNotice() {
+      errorBox.textContent = "";
+      errorBox.style.display = "none";
+    }
+
+    // 🛡️ CRITICAL CYBER DEFENSE: Hardened Whitelist State Monitor Node Listener
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const structuralCleanEmail = user.email.toLowerCase().trim();
+        
+        if (PARAMOUNT_ADMIN_WHITELIST.has(structuralCleanEmail)) {
+          // ✅ ACCESS GRANTED: User is a validated institution administrator
+          resetAuthNotice();
+          authOverlay.style.display = "none";
+          dashboardContainer.style.display = "block";
+          syncAdminDatabaseMetrics();
+        } else {
+          // ❌ INTRUSION SHUTDOWN: Logged user isn't an admin. Terminate token credentials instantly.
+          throwAuthNotice("🔒 Access Blocked: This email is not verified on the Paramount Library Administration registry.");
+          setTimeout(() => { signOut(auth); }, 2500);
+          authOverlay.style.display = "flex";
+          dashboardContainer.style.display = "none";
+        }
+      } else {
+        // Explicitly locked down presentation view when unauthenticated
+        authOverlay.style.display = "flex";
+        dashboardContainer.style.display = "none";
+      }
+    });
+
+    // Manual Email form submissions logic wrapper
+    document.getElementById('adminCredentialsForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      resetAuthNotice();
+      
+      const email = document.getElementById('authEmailInput').value.toLowerCase().trim();
+      const password = document.getElementById('authPasswordInput').value;
+
+      if (!PARAMOUNT_ADMIN_WHITELIST.has(email)) {
+        throwAuthNotice("🔒 Security Denied: Unauthorized administrative account profile address.");
+        return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) {
+        throwAuthNotice(`Authentication Failed: ${err.message.replace("Firebase: ", "")}`);
+      }
+    });
+
+    // Google Pop-up authorization gateway hooks
+    document.getElementById('googleAuthActionBtn').addEventListener('click', async () => {
+      resetAuthNotice();
+      try {
+        await signInWithPopup(auth, googleProvider);
+      } catch (err) {
+        throwAuthNotice(`Google Sign-In Cancelled: ${err.message}`);
+      }
+    });
+
+    // Real-time Cloud Link Password Rest Injections
+    document.getElementById('passwordResetActionBtn').addEventListener('click', async () => {
+      resetAuthNotice();
+      const targetEmail = document.getElementById('authEmailInput').value.toLowerCase().trim();
+      
+      if (!targetEmail) {
+        throwAuthNotice("Please enter your designated Admin Email address inside the text field above first.");
+        return;
+      }
+
+      if (!PARAMOUNT_ADMIN_WHITELIST.has(targetEmail)) {
+        throwAuthNotice("🔒 Action Denied: Target email registry path mapping is not a verified administrative console handle.");
+        return;
+      }
+
+      try {
+        await sendPasswordResetEmail(auth, targetEmail);
+        alert(`🎉 Success! An official secure password compilation reset instruction transmission array has been fired straight to your inbox at: ${targetEmail}`);
+      } catch (err) {
+        throwAuthNotice(`Password Core Reset Error: ${err.message}`);
+      }
+    });
+
+    // Hard exit breakout function session triggers
+    document.getElementById('adminSessionSignoutBtn').addEventListener('click', () => {
+      signOut(auth).then(() => {
+        document.getElementById('authEmailInput').value = "";
+        document.getElementById('authPasswordInput').value = "";
+        window.location.reload();
+      });
+    });
 
     // Fetch account matrix snapshots directly out of Firestore collections
     async function syncAdminDatabaseMetrics() {
@@ -111,7 +278,7 @@
 
         renderTableRows(cachedStudentsArray);
       } catch (error) {
-        tableBody.innerHTML = `<tr><td colspan='5' style='text-align:center; color:#ef4444; padding:20px;'>❌ Security Error: ${error.message}</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan='5' style='text-align:center; color:#ef4444; padding:20px;'>❌ Database Query Aborted: ${error.message}</td></tr>`;
       }
     }
 
@@ -127,10 +294,8 @@
 
       studentsList.forEach((student, index) => {
         const tr = document.createElement('tr');
-        
         const isPremiumActive = student.tier === "premium" && student.subscription_expires > Date.now();
         
-        // Format milliseconds cleanly to structural standard text output representations
         let dateDisplayString = "—";
         if (isPremiumActive && student.subscription_expires) {
           const dateObj = new Date(student.subscription_expires);
@@ -152,14 +317,12 @@
           </td>
         `;
 
-        // Attach transaction listeners inside data loop
         const actionButton = tr.querySelector('.action-btn');
         actionButton.addEventListener('click', async () => {
           const emailTarget = actionButton.getAttribute('data-email');
           const studentDocRef = doc(db, "authorized_students", emailTarget.toLowerCase().trim());
           
           if (!isPremiumActive) {
-            // Calculate a perfect 1-year calendar leap matrix (365 days ahead from May 18, 2026)
             const oneYearLeapTime = 365 * 24 * 60 * 60 * 1000;
             const computedExpiryTimestamp = Date.now() + oneYearLeapTime;
 
@@ -169,14 +332,13 @@
               updated_at: Date.now()
             });
           } else {
-            // Instant security tier revocation fallback
             await updateDoc(studentDocRef, {
               tier: "free",
               subscription_expires: 0,
               updated_at: Date.now()
             });
           }
-          syncAdminDatabaseMetrics(); // Instantly pull down live metrics clean counters
+          syncAdminDatabaseMetrics(); 
         });
 
         tableBody.appendChild(tr);
@@ -192,8 +354,12 @@
       renderTableRows(filteredResults);
     });
 
-    // Execute core database processing triggers
-    syncAdminDatabaseMetrics();
+    // Keyboard lockdown logic parameters mapping node
+    window.addEventListener('keydown', function(e) {
+      if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 67 || e.keyCode == 74)) || (e.ctrlKey && (e.keyCode == 83 || e.keyCode == 80 || e.keyCode == 85))) {
+        e.preventDefault(); return false;
+      }
+    });
   </script>
 </body>
 </html>
