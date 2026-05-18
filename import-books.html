@@ -91,14 +91,14 @@
           const parsedGrade = metaParts[1].trim();   // Will extract exactly "Grade 2"
           const parsedSubject = metaParts[2].trim(); // Will extract exactly "Telugu"
 
-          // Fire data properties straight into Cloud Firestore digital_library collection directory layout
-          const customDocId = `book_${fileId}`; // Keep doc IDs anchored cleanly to file structures
+          const customDocId = `book_${fileId}`; 
           await setDoc(doc(db, "digital_library", customDocId), {
             title: parsedTitle,
             grade: parsedGrade,
             subject: parsedSubject,
             author: "Paramount Academic Panel",
-            fileURL: cleanStreamUrl
+            fileURL: cleanStreamUrl,
+            tier: "free" // ✅ ADD THIS LINE: Sets default free tier. Change to "premium" for premium books!
           });
 
           successCount++;
