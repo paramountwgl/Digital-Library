@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Paramount Administrative Command Engine</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo.png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background-color: #030712; color: white; padding: 40px 20px; min-height: 100vh; }
+    .admin-container { max-width: 1100px; margin: 0 auto; width: 100%; }
+    
+    /* Executive Structural Headers */
+    .admin-header-card { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 25px; margin-bottom: 35px; }
+    .panel-headline { font-size: 1.6rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stats-badge-node { background: rgba(59, 130, 246, 0.06); border: 1px solid rgba(59, 130, 246, 0.15); padding: 8px 16px; border-radius: 10px; font-size: 0.85rem; color: #60a5fa; font-weight: 600; }
+
+    /* Search & Filter Controls */
+    .search-filter-wrapper { display: flex; gap: 15px; margin-bottom: 25px; }
+    .search-input { flex-grow: 1; padding: 14px 20px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-size: 0.95rem; outline: none; transition: all 0.3s; }
+    .search-input:focus { border-color: #3b82f6; box-shadow: 0 0 15px rgba(59,130,246,0.2); }
+
+    /* Tabular Form Layout Core Framework */
+    .table-responsive-scroll-box { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.06); backdrop-filter: blur(20px); border-radius: 18px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
+    .admin-data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+    .admin-data-table th { background: rgba(255,255,255,0.03); padding: 16px 20px; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .admin-data-table td { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #cbd5e1; }
+    .admin-data-table tr:hover td { background: rgba(255,255,255,0.01); color: white; }
+
+    /* Custom Status Indicators */
+    .tier-pill { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .tier-pill.free { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
+    .tier-pill.premium { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.2); }
+
+    /* Action Trigger Buttons inside Matrix layout */
+    .action-btn { padding: 8px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; outline: none; border: none; }
+    .action-btn.upgrade { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: #34d399; }
+    .action-btn.upgrade:hover { background: #10b981; color: white; }
+    .action-btn.downgrade { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); color: #fca5a5; }
+    .action-btn.downgrade:hover { background: #ef4444; color: white; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    <header class="admin-header-card">
+      <div>
+        <h1 class="panel-headline">Paramount Registry Manager</h1>
+        <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 2px;">Offline Subscription Authorization & Database Console</p>
+      </div>
+      <div class="stats-badge-node" id="totalStudentsCountLabel">Active Directory: 0 Students</div>
+    </header>
+
+    <div class="search-filter-wrapper">
+      <input type="text" class="search-input" id="adminSearchField" placeholder="🔍 Filter student directory database by email path string parameters...">
+    </div>
+
+    <div class="table-responsive-scroll-box">
+      <table class="admin-data-table">
+        <thead>
+          <tr>
+            <th style="width: 80px;">S.No</th>
+            <th>Registered Student Email</th>
+            <th>Account Status</th>
+            <th>Subscription Expiration Parameter</th>
+            <th style="text-align: right;">Administrative Action</th>
+          </tr>
+        </thead>
+        <tbody id="studentRecordsTableBody">
+          <tr>
+            <td colspan="5" style="text-align: center; color: #94a3b8; padding: 40px;">Initializing secure connection to Cloud Firestore collections...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzUOh21Ec31kKmf42Tcw-xs4fVZyPh2fM",
+      authDomain: "paramount-school-d55bc.firebaseapp.com",
+      databaseURL: "https://paramount-school-d55bc-default-rtdb.firebaseio.com",
+      projectId: "paramount-school-d55bc",
+      storageBucket: "paramount-school-d55bc.firebasestorage.app",
+      messagingSenderId: "130979432562",
+      appId: "1:130979432562:web:4cd94787b23f9daba51aeb",
+      measurementId: "G-ZMZHXB5GFM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const tableBody = document.getElementById('studentRecordsTableBody');
+    const totalCountLabel = document.getElementById('totalStudentsCountLabel');
+    const searchField = document.getElementById('adminSearchField');
+
+    let cachedStudentsArray = []; // Holds memory cache state for instant search filtering
+
+    // Fetch account matrix snapshots directly out of Firestore collections
+    async function syncAdminDatabaseMetrics() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "authorized_students"));
+        cachedStudentsArray = [];
+        
+        querySnapshot.forEach((doc) => {
+          cachedStudentsArray.push({ id: doc.id, ...doc.data() });
+        });
+
+        renderTableRows(cachedStudentsArray);
+      } catch (error) {
+        tableBody.innerHTML = `<tr><td colspan='5' style='text-align:center; color:#ef4444; padding:20px;'>❌ Security Error: ${error.message}</td></tr>`;
+      }
+    }
+
+    // Process array matrices into incremental index table structures
+    function renderTableRows(studentsList) {
+      tableBody.innerHTML = '';
+      totalCountLabel.textContent = `Active Directory: ${studentsList.length} Students`;
+
+      if (studentsList.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding:30px;'>No student profile data metrics found.</td></tr>`;
+        return;
+      }
+
+      studentsList.forEach((student, index) => {
+        const tr = document.createElement('tr');
+        
+        const isPremiumActive = student.tier === "premium" && student.subscription_expires > Date.now();
+        
+        // Format milliseconds cleanly to structural standard text output representations
+        let dateDisplayString = "—";
+        if (isPremiumActive && student.subscription_expires) {
+          const dateObj = new Date(student.subscription_expires);
+          dateDisplayString = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        } else if (student.tier === "premium") {
+          dateDisplayString = "⚠️ Plan Expired";
+        }
+
+        tr.innerHTML = `
+          <td style="font-weight: 700; color: #4b5563;">${index + 1}</td>
+          <td style="font-family: monospace; font-size: 0.95rem; color: #ffffff;">${student.email}</td>
+          <td><span class="tier-pill ${isPremiumActive ? 'premium' : 'free'}">${isPremiumActive ? '👑 Premium' : 'Standard Free'}</span></td>
+          <td style="font-weight: 500; color: ${isPremiumActive ? '#fbbf24' : '#64748b'};">${dateDisplayString}</td>
+          <td style="text-align: right;">
+            ${isPremiumActive ? 
+              `<button class="action-btn downgrade" data-email="${student.email}">Cancel Access</button>` : 
+              `<button class="action-btn upgrade" data-email="${student.email}">Verify ₹50 Payment</button>`
+            }
+          </td>
+        `;
+
+        // Attach transaction listeners inside data loop
+        const actionButton = tr.querySelector('.action-btn');
+        actionButton.addEventListener('click', async () => {
+          const emailTarget = actionButton.getAttribute('data-email');
+          const studentDocRef = doc(db, "authorized_students", emailTarget.toLowerCase().trim());
+          
+          if (!isPremiumActive) {
+            // Calculate a perfect 1-year calendar leap matrix (365 days ahead from May 18, 2026)
+            const oneYearLeapTime = 365 * 24 * 60 * 60 * 1000;
+            const computedExpiryTimestamp = Date.now() + oneYearLeapTime;
+
+            await updateDoc(studentDocRef, {
+              tier: "premium",
+              subscription_expires: computedExpiryTimestamp,
+              updated_at: Date.now()
+            });
+          } else {
+            // Instant security tier revocation fallback
+            await updateDoc(studentDocRef, {
+              tier: "free",
+              subscription_expires: 0,
+              updated_at: Date.now()
+            });
+          }
+          syncAdminDatabaseMetrics(); // Instantly pull down live metrics clean counters
+        });
+
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // Attach instant real-time live filtering event trackers
+    searchField.addEventListener('input', (e) => {
+      const queryText = e.target.value.toLowerCase().trim();
+      const filteredResults = cachedStudentsArray.filter(student => 
+        student.email.toLowerCase().includes(queryText)
+      );
+      renderTableRows(filteredResults);
+    });
+
+    // Execute core database processing triggers
+    syncAdminDatabaseMetrics();
+  </script>
+</body>
+</html>
